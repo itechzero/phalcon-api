@@ -45,6 +45,7 @@ try {
      * Handle the request
      */
     $application = new \Phalcon\Mvc\Application($di);
+    //dd($application->response);
 
     echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 } catch (\Exception $e) {
