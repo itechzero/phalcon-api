@@ -5,8 +5,6 @@ use Phalcon\Escaper;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Url as UrlResolver;
@@ -34,30 +32,7 @@ $di->setShared('url', function () {
  * Setting up the view component
  */
 $di->setShared('view', function () {
-    $config = $this->getConfig();
-
-    $view = new View();
-    $view->setDI($this);
-    $view->setViewsDir($config->application->viewsDir);
-
-    $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
-
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'path' => $config->application->cacheDir,
-                'separator' => '_'
-            ]);
-
-            return $volt;
-        },
-        '.phtml' => PhpEngine::class
-
-    ]);
-
-    return $view;
+    return (new View())->disable();
 });
 
 /**
@@ -120,3 +95,31 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+//$di->setShared(
+//    'session',
+//    function () {
+//        $session = new \Phalcon\Session\Adapter\Redis([
+//            'uniqueId'   => 'xxxxx',
+//            'prefix'     => '',
+//            'lifetime'   => 86400,
+//            'host'       => 'xxx.xx.xx.xxx',
+//            'port'       => 6379,
+//            'auth'       => 'xxxxxxxxx',
+//            'persistent' => false,
+//        ]);
+//        $config = $this->getConfig();
+//
+//        $class = 'Phalcon\Session\Adapter\Redis';
+//        $params = [
+//            'host'     => $config->database->host,
+//            'username' => $config->database->username,
+//            'password' => $config->database->password,
+//            'dbname'   => $config->database->dbname,
+//            'charset'  => $config->database->charset
+//        ];
+//
+//
+//        return (new $class($params))->start();
+//    }
+//);

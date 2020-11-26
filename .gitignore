@@ -1,4 +1,6 @@
 /cache/
 /config/development/
-.idea
-.phalcon
+/.idea
+/.phalcon
+/vendor
+composer.lock
