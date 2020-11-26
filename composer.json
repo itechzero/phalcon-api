@@ -14,7 +14,7 @@
       "App\\": "app/"
     },
     "files": [
-      "app/functions.php"
+      "app/Helpers/functions.php"
     ]
   }
 }

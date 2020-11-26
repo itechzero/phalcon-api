@@ -2,6 +2,16 @@
 
 $router = $di->getRouter();
 
-// Define your routes here
+$router->add("/", "App\\Controllers\\Index::index", null, \Phalcon\Mvc\Router::POSITION_FIRST);
 
-$router->handle($_SERVER['REQUEST_URI']);
+// Define your routes here
+$router->add(
+    "/:controller/:action/:params",
+    array(
+        "namespace"  => "App\\Controllers",
+        "controller" => 1,
+        "action"     => 2,
+        "params"     => 3,
+    ),
+    ['GET', "POST", "PUT", "DELETE"]
+);
