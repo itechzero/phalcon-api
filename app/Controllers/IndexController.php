@@ -8,7 +8,8 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
-        return $this->response->setJsonContent(['code' => 0,'msg' => 'success','data' => (object)[]]);
+        return $this->response();
+        //return $this->response->setJsonContent(['code' => 0,'msg' => 'success','data' => (object)[]]);
     }
 
 }

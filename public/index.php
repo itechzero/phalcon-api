@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Phalcon\Di\FactoryDefault;
+use App\Application;
 
 error_reporting(E_ALL);
 
@@ -44,10 +45,11 @@ try {
     /**
      * Handle the request
      */
-    $application = new \Phalcon\Mvc\Application($di);
+    //$application = new \Phalcon\Mvc\Application($di);
+    $application = new Application($di);
     //dd($application->response);
 
-    echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
+    $application->handle($_SERVER['REQUEST_URI'])->send();
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
