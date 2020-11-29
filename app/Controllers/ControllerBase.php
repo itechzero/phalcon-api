@@ -10,6 +10,6 @@ class ControllerBase extends Controller
     // Implement common logic
     public function response()
     {
-        return $this->response->setJsonContent([]);
+        return $this->response->setJsonContent(['code' => 0,'msg' => 'success','data' => (object)[]]);
     }
 }
