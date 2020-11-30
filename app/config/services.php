@@ -14,14 +14,6 @@ $di->register(new \App\Providers\ConfigProvider());
  * The URL component is used to generate all kind of urls in the application
  */
 //$di->register(new \App\Providers\UrlProvider());
-//$di->setShared('url', function () {
-//    $config = $this->getConfig();
-//
-//    $url = new UrlResolver();
-//    $url->setBaseUri($config->application->baseUri);
-//
-//    return $url;
-//});
 
 /**
  * Setting up the view component
