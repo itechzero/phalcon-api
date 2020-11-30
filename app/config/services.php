@@ -8,28 +8,25 @@ use Phalcon\Url as UrlResolver;
 /**
  * Shared configuration service
  */
-$di->setShared('config', function () {
-    return include APP_PATH . "/config/config.php";
-});
+$di->register(new \App\Providers\ConfigProvider());
 
 /**
  * The URL component is used to generate all kind of urls in the application
  */
-$di->setShared('url', function () {
-    $config = $this->getConfig();
-
-    $url = new UrlResolver();
-    $url->setBaseUri($config->application->baseUri);
-
-    return $url;
-});
+//$di->register(new \App\Providers\UrlProvider());
+//$di->setShared('url', function () {
+//    $config = $this->getConfig();
+//
+//    $url = new UrlResolver();
+//    $url->setBaseUri($config->application->baseUri);
+//
+//    return $url;
+//});
 
 /**
  * Setting up the view component
  */
-$di->setShared('view', function () {
-    return (new View())->disable();
-});
+$di->register(new \App\Providers\ViewProvider());
 
 /**
  * Database connection is created based in the parameters defined in the configuration file

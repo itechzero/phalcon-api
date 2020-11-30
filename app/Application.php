@@ -17,6 +17,7 @@ class Application extends BaseApplication
     public function beforeSendResponse(Event $event, BaseApplication $app, Response $response)
     {
         $content = $this->dispatcher->getReturnedValue();
+        dd($content);
 
         if ($content instanceof Response) {
             $content    = json_decode($response->getContent(), true);
