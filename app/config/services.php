@@ -2,8 +2,6 @@
 declare(strict_types=1);
 
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Mvc\View;
-use Phalcon\Url as UrlResolver;
 
 /**
  * Shared configuration service
