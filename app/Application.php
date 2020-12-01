@@ -21,24 +21,24 @@ class Application extends BaseApplication
         $content = $this->dispatcher->getReturnedValue();
 
         if ($content instanceof Response) {
-            $content    = json_decode($response->getContent(), true);
+            $content = json_decode($response->getContent(), true);
         }
 
         if ($content instanceof Model) {
-            $content =  $content->toArray();
+            $content = $content->toArray();
         }
 
         if (NULL === $content || FALSE === $content) {
-            $content    = (Object) [];
+            $content = (object)[];
         }
 
         if (is_array($content)) {
             if (!isset($content['code'])) {
                 $response->setJsonContent(
                     [
-                        'code'  => 0,
-                        'msg'   => 'success',
-                        'data'  => $content,
+                        'code' => 0,
+                        'msg' => 'success',
+                        'data' => (object)$content,
                     ]
                 );
             } else {
@@ -47,22 +47,22 @@ class Application extends BaseApplication
         }
 
         if ($content instanceof ResponseStruct) {
-            $msg            = $content->getMsg();
-            $responseData   = [
-                'code'          => $content->getCode(),
-                'msg'           => $msg,
-                'data'          => $content->getData(),
+            $msg = $content->getMsg();
+            $responseData = [
+                'code' => $content->getCode(),
+                'msg' => $msg,
+                'data' => $content->getData(),
             ];
 
             $response->setJsonContent($responseData);
         }
 
-        if ((Object) [] == $content) {
+        if ((object)[] == $content) {
             $response->setJsonContent(
                 [
-                    'code'  => 0,
-                    'msg'   => 'success',
-                    'data'  => (Object) $content,
+                    'code' => 0,
+                    'msg' => 'success',
+                    'data' => (object)$content,
                 ]
             );
         }
