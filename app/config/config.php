@@ -16,6 +16,15 @@ return new \Phalcon\Config([
         'dbname'      => 'demo',
         'charset'     => 'utf8',
     ],
+    'redis' => [
+        'adapter'     => 'phpredis',
+        'host'        => 'redis',
+        'port'        => '6379',
+        'index'       => 0,
+        'auth'        => null,
+        'persistent'  => false, //是否持久连接
+        'socket'      => '',
+    ],
     'application' => [
         'appDir'         => APP_PATH . '/',
         'controllersDir' => APP_PATH . '/Controllers/',

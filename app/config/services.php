@@ -29,60 +29,7 @@ $di->register(new \App\Providers\DbProvider());
 
 
 /**
- * Register the session flash service with the Twitter Bootstrap classes
- */
-//$di->set('flash', function () {
-//    $escaper = new Escaper();
-//    $flash = new Flash($escaper);
-//    $flash->setImplicitFlush(false);
-//    $flash->setCssClasses([
-//        'error'   => 'alert alert-danger',
-//        'success' => 'alert alert-success',
-//        'notice'  => 'alert alert-info',
-//        'warning' => 'alert alert-warning'
-//    ]);
-//
-//    return $flash;
-//});
-
-/**
  * Start the session the first time some component request the session service
  */
-//$di->setShared('session', function () {
-//    $session = new SessionManager();
-//    $files = new SessionAdapter([
-//        'savePath' => sys_get_temp_dir(),
-//    ]);
-//    $session->setAdapter($files);
-//    $session->start();
-//
-//    return $session;
-//});
+// $di->register(new \App\Providers\SessionProvider());
 
-//$di->setShared(
-//    'session',
-//    function () {
-//        $session = new \Phalcon\Session\Adapter\Redis([
-//            'uniqueId'   => 'xxxxx',
-//            'prefix'     => '',
-//            'lifetime'   => 86400,
-//            'host'       => 'xxx.xx.xx.xxx',
-//            'port'       => 6379,
-//            'auth'       => 'xxxxxxxxx',
-//            'persistent' => false,
-//        ]);
-//        $config = $this->getConfig();
-//
-//        $class = 'Phalcon\Session\Adapter\Redis';
-//        $params = [
-//            'host'     => $config->database->host,
-//            'username' => $config->database->username,
-//            'password' => $config->database->password,
-//            'dbname'   => $config->database->dbname,
-//            'charset'  => $config->database->charset
-//        ];
-//
-//
-//        return (new $class($params))->start();
-//    }
-//);
