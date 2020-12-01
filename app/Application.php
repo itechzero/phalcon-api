@@ -6,6 +6,7 @@ namespace App;
 use Phalcon\Events\Event;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Application as BaseApplication;
+use Phalcon\Mvc\Model;
 
 class Application extends BaseApplication
 {
@@ -17,13 +18,12 @@ class Application extends BaseApplication
     public function beforeSendResponse(Event $event, BaseApplication $app, Response $response)
     {
         $content = $this->dispatcher->getReturnedValue();
-        dd($content);
 
         if ($content instanceof Response) {
             $content    = json_decode($response->getContent(), true);
         }
 
-        if ($content instanceof \Phalcon\Mvc\Model) {
+        if ($content instanceof Model) {
             $content =  $content->toArray();
         }
 
@@ -35,7 +35,7 @@ class Application extends BaseApplication
             if (!isset($content['code'])) {
                 $response->setJsonContent(
                     [
-                        'code'  => 200,
+                        'code'  => 0,
                         'msg'   => 'success',
                         'data'  => $content,
                     ]
@@ -45,12 +45,10 @@ class Application extends BaseApplication
             }
         }
 
-
-
         if ((Object) [] == $content) {
             $response->setJsonContent(
                 [
-                    'code'  => 200,
+                    'code'  => 0,
                     'msg'   => 'success',
                     'data'  => (Object) $content,
                 ]

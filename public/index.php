@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Phalcon\Di\FactoryDefault;
 use App\Application;
+use Phalcon\Events\Manager as EventsManager;
 
 error_reporting(E_ALL);
 
@@ -45,11 +46,13 @@ try {
     /**
      * Handle the request
      */
-    //$application = new \Phalcon\Mvc\Application($di);
     $application = new Application($di);
-    //dd($application->response);
+    $eventsManager = new EventsManager();
+    $eventsManager->attach('application:beforeSendResponse',$application);
+    $application->setEventsManager($eventsManager);
 
-    $application->handle($_SERVER['REQUEST_URI'])->send();
+    //$application->handle($_SERVER['REQUEST_URI'])->send();
+    echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
