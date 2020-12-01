@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Struct\ResponseStruct;
 use Phalcon\Events\Event;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Application as BaseApplication;
@@ -43,6 +44,17 @@ class Application extends BaseApplication
             } else {
                 $response->setJsonContent($content);
             }
+        }
+
+        if ($content instanceof ResponseStruct) {
+            $msg            = $content->getMsg();
+            $responseData   = [
+                'code'          => $content->getCode(),
+                'msg'           => $msg,
+                'data'          => $content->getData(),
+            ];
+
+            $response->setJsonContent($responseData);
         }
 
         if ((Object) [] == $content) {
