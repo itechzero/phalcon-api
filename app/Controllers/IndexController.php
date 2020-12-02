@@ -3,16 +3,18 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Models\Users;
+use App\Service\UserService;
 
 class IndexController extends ControllerBase
 {
 
     public function indexAction()
     {
-//        return [
-//            'list' => Users::find()->toArray(),
-//        ];
+
+        $requestData = $this->request->get();
+        return [
+            'list' => UserService::userList(),
+        ];
     }
 
 }
