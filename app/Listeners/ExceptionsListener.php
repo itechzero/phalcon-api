@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Listeners;
 
+use App\Exceptions\BaseException;
 use Exception;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
@@ -10,7 +11,7 @@ use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatchException;
 use Phalcon\Dispatcher\Exception as DispatcherException;
 
-class ExceptionsEvent extends Injectable
+class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
@@ -26,8 +27,19 @@ class ExceptionsEvent extends Injectable
                             'data' => (object)[],
                         ]
                     );
+                    break;
+                default:
+//                    $this->logger->error($ex->getMessage());
+//                    $this->logger->error($ex->getTraceAsString());
+                    break;
             }
         }
+
+        if ($exception instanceof BaseException) {
+            // TODO
+        }
+
+
         $dispatcher->setReturnedValue($this->response);
         return false;
     }
