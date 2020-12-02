@@ -13,7 +13,7 @@ class ExceptionsPlugin
     public function beforeException(Event $event,Dispatcher $dispatcher,Exception $exception)
     {
         if ($exception instanceof DispatchException) {
-            $action = '';
+            // TODO
         }
     }
 }
