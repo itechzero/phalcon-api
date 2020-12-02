@@ -21,6 +21,10 @@ $di->register(new \App\Providers\ViewProvider());
  */
 $di->register(new \App\Providers\DbProvider());
 
+/**
+ * DispatcherProvider
+ */
+$di->register(new \App\Providers\DispatcherProvider());
 
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
