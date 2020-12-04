@@ -27,6 +27,11 @@ $di->register(new \App\Providers\DbProvider());
 $di->register(new \App\Providers\DispatcherProvider());
 
 /**
+ * Support Redis
+ */
+$di->register(new \App\Providers\RedisProvider());
+
+/**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
 // $di->register(new \App\Providers\ModelsMetadataProvider());

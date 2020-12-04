@@ -20,10 +20,11 @@ return new \Phalcon\Config([
         'adapter'     => 'phpredis',
         'host'        => 'redis',
         'port'        => '6379',
-        'index'       => 0,
+        'timeout'     => 2.5,
         'auth'        => null,
         'persistent'  => false, //是否持久连接
         'socket'      => '',
+        'index'       => 0,
     ],
     'application' => [
         'appDir'         => APP_PATH . '/',
