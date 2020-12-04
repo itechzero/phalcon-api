@@ -19,7 +19,7 @@ return new \Phalcon\Config([
     'redis' => [
         'adapter'     => 'phpredis',
         'host'        => 'redis',
-        'port'        => '6379',
+        'port'        => 6379,
         'timeout'     => 2.5,
         'auth'        => null,
         'persistent'  => false, //是否持久连接

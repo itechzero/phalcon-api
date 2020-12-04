@@ -10,7 +10,8 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
-
+        $redis = $this->di->getShared('redis');
+        dd($redis);
         $requestData = $this->request->get();
         return [
             'list' => UserService::userList(),
