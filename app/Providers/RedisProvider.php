@@ -30,6 +30,10 @@ class RedisProvider implements ServiceProviderInterface
                     $redis->select($config->redis->index);
                 }
 
+                if (PHP_SAPI == 'cli') {
+                    $redis->setOption(Redis::OPT_READ_TIMEOUT,(string)-1);
+                }
+
                 return $redis;
             }
         );
