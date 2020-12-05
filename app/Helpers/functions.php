@@ -27,11 +27,19 @@ if (!function_exists('env')) {
 }
 
 if (!function_exists('multi_array_sort')) {
-    function multi_array_sort($array,$shortKey,$short=SORT_ASC,$shortType=SORT_REGULAR) {
-        foreach ($array as $key => $data){
+    function multi_array_sort($array, $shortKey, $short = SORT_ASC, $shortType = SORT_REGULAR)
+    {
+        foreach ($array as $key => $data) {
             $name[$key] = $data[$shortKey];
         }
-        array_multisort($name,$shortType,$short,$array);
+        array_multisort($name, $shortType, $short, $array);
         return $array;
+    }
+}
+
+if (!function_exists('myErrorHandler')) {
+    function myErrorHandler($errNo, $errStr, $errFile, $errLine)
+    {
+
     }
 }
