@@ -4,7 +4,9 @@ declare(strict_types=1);
 use Phalcon\Di\FactoryDefault;
 use App\Application;
 use Phalcon\Events\Manager as EventsManager;
-
+use App\Exceptions\BaseException;
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
 error_reporting(E_ALL);
 
 define('BASE_PATH', dirname(__DIR__));
@@ -51,9 +53,34 @@ try {
     $eventsManager->attach('application:beforeSendResponse',$application);
     $application->setEventsManager($eventsManager);
 
+//    set_error_handler(
+//        function ($errorNo, $errorStr, $errorFile, $errorLine)
+//        {
+//            throw new BaseException($errorStr);
+//        }
+//    );
+
     //$application->handle($_SERVER['REQUEST_URI'])->send();
     echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
-} catch (Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+} catch (BaseException $exception) {
+    $adapter = new Stream(BASE_PATH.'runtime-'.date('Y-m-d').'.log');
+    $logger  = new Logger(
+        'messages',
+        [
+            'main' => $adapter,
+        ]
+    );
+
+    $logger->debug($e->getMessage());
+    $logger->error($e->getTraceAsString());
+    $params = [
+        'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
+        'msg' => BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
+        'data' => (object)[],
+    ];
+    $params['msg'] = $exception->getMessage();
+    $params['trace'] = $exception->getTrace();
+    var_dump($params);
+//    echo $e->getMessage() . '<br>';
+//    echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }

@@ -15,6 +15,16 @@ class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
+//        if ($exception instanceof Exception) {
+//            $this->response->setJsonContent(
+//                [
+//                    'code' => -1,
+//                    'msg' => $exception->getTrace(),
+//                    'data' => (object)[],
+//                ]
+//            );
+//        }
+
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {
                 case DispatcherException::EXCEPTION_HANDLER_NOT_FOUND:
@@ -36,7 +46,13 @@ class ExceptionsListener extends Injectable
         }
 
         if ($exception instanceof BaseException) {
-            // TODO
+            $this->response->setJsonContent(
+                [
+                    'code' => -3,
+                    'msg' => $exception->getTrace(),
+                    'data' => (object)[],
+                ]
+            );
         }
 
 

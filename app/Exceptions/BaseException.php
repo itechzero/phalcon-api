@@ -8,6 +8,12 @@ use Throwable;
 
 class BaseException extends Exception
 {
+    const HTTP_INTERNAL_SERVER_ERROR = 500;
+
+    public static $statusTexts = [
+        500 => 'Internal Server Error',
+    ];
+
     /**
      * BaseException constructor.
      */
