@@ -29,8 +29,8 @@ class ControllerBase extends Controller
     }
 
 
-//    public function afterExecuteRoute($dispatcher)
-//    {
+    public function afterExecuteRoute($dispatcher)
+    {
 //        $this->view->disable();
 //        $this->response->setContentType('application/json', 'UTF-8');
 //        $this->response->setHeader('Cache-Control', 'no-store');
@@ -43,6 +43,6 @@ class ControllerBase extends Controller
 //            $this->response->setJsonContent($data);
 //            return $this->response->send();
 //        }
-//    }
+    }
 
 }
