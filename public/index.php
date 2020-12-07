@@ -81,7 +81,8 @@ try {
     ];
     $params['msg'] = $exception->getMessage();
     $params['trace'] = $exception->getTrace();
-    var_dump($params);
+    //var_dump($params);
+    echo json_encode($params);die;
 //    echo $e->getMessage() . '<br>';
 //    echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }
