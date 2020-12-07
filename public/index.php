@@ -62,8 +62,9 @@ try {
 
     //$application->handle($_SERVER['REQUEST_URI'])->send();
     echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
-} catch (BaseException $exception) {
-    $adapter = new Stream(BASE_PATH.'runtime-'.date('Y-m-d').'.log');
+} catch (Exception $exception) {
+    //dd($exception->getMessage());
+    $adapter = new Stream(sprintf(BASE_PATH.'/storage/logs/runtime-%s.log',date('Y-m-d')));
     $logger  = new Logger(
         'messages',
         [
@@ -71,8 +72,8 @@ try {
         ]
     );
 
-    $logger->debug($e->getMessage());
-    $logger->error($e->getTraceAsString());
+    $logger->debug($exception->getMessage());
+    $logger->error($exception->getTraceAsString());
     $params = [
         'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
         'msg' => BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
