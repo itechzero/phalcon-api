@@ -1,7 +1,5 @@
-/cache/
-/config/development/
-/.idea
 /.phalcon
+/.idea
 /vendor
-composer.lock
 .env
+composer.lock
