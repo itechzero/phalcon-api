@@ -15,28 +15,25 @@ class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
-        if ($exception instanceof Exception) {
-            $this->response->setJsonContent(
-                [
-                    'code' => -1,
-                    'msg' => $exception->getTrace(),
-                    'data' => (object)[],
-                ]
-            );
+        $params = [
+            'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
+            'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
+            'data' => (object)[],
+        ];
+
+        if ($this->di->getShared('config')->app_debug) {
+            $params['trace'] = $exception->getTraceAsString();
+            $params['file'] = $exception->getFile();
+            $params['line'] = $exception->getLine();
         }
 
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {
                 case DispatcherException::EXCEPTION_HANDLER_NOT_FOUND:
                 case DispatcherException::EXCEPTION_ACTION_NOT_FOUND:
-                    // 404
-                    $this->response->setJsonContent(
-                        [
-                            'code' => -2,
-                            'msg' => 'route not found',
-                            'data' => (object)[],
-                        ]
-                    );
+                    $params['code'] = BaseException::HTTP_NOT_FOUND;
+                    $params['msg'] = BaseException::$statusTexts[BaseException::HTTP_NOT_FOUND];
+                    $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_NOT_FOUND);
                     break;
                 default:
 //                    $this->logger->error($ex->getMessage());
@@ -45,16 +42,9 @@ class ExceptionsListener extends Injectable
             }
         }
 
-        if ($exception instanceof BaseException) {
-            $this->response->setJsonContent(
-                [
-                    'code' => -3,
-                    'msg' => $exception->getTrace(),
-                    'data' => (object)[],
-                ]
-            );
+        if ($exception instanceof Exception) {
+            $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_INTERNAL_SERVER_ERROR);
         }
-
 
         $dispatcher->setReturnedValue($this->response);
         return false;

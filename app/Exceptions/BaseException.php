@@ -8,9 +8,11 @@ use Throwable;
 
 class BaseException extends Exception
 {
+    const HTTP_NOT_FOUND = 404;
     const HTTP_INTERNAL_SERVER_ERROR = 500;
 
     public static $statusTexts = [
+        404 => 'Not Found',
         500 => 'Internal Server Error',
     ];
 
