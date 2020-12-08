@@ -4,3 +4,4 @@
 /.phalcon
 /vendor
 composer.lock
+.env
