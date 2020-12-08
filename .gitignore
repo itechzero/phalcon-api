@@ -1,5 +1,5 @@
-/.phalcon
-/.idea
-/vendor
+.phalcon/
+.idea/
+vendor/
 .env
 composer.lock
