@@ -5,6 +5,8 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
 
 class LogProvider implements ServiceProviderInterface
 {
@@ -15,8 +17,14 @@ class LogProvider implements ServiceProviderInterface
     {
         $di->setShared(
             'log',
-            function () {
-
+            function () use ($di) {
+                $adapter = new Stream(sprintf(BASE_PATH.'/storage/logs/runtime-%s.log',date('Y-m-d')));
+                return new Logger(
+                    'messages',
+                    [
+                        'main' => $adapter,
+                    ]
+                );
             }
         );
     }
