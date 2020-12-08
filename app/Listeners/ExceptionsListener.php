@@ -15,15 +15,15 @@ class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
-//        if ($exception instanceof Exception) {
-//            $this->response->setJsonContent(
-//                [
-//                    'code' => -1,
-//                    'msg' => $exception->getTrace(),
-//                    'data' => (object)[],
-//                ]
-//            );
-//        }
+        if ($exception instanceof Exception) {
+            $this->response->setJsonContent(
+                [
+                    'code' => -1,
+                    'msg' => $exception->getTrace(),
+                    'data' => (object)[],
+                ]
+            );
+        }
 
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {

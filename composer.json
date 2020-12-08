@@ -7,8 +7,7 @@
   ],
   "description": "The Phalcon Framework.",
   "require": {
-    "guzzlehttp/guzzle": "^6.3",
-    "vlucas/phpdotenv": "^5.2"
+    "guzzlehttp/guzzle": "^6.3"
   },
   "autoload": {
     "psr-4": {

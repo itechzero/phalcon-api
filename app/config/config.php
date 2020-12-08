@@ -8,6 +8,8 @@ defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirn
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 return new \Phalcon\Config([
+    'app_env' => 'local',
+    'app_debug' => true,
     'database' => [
         'adapter'     => 'Mysql',
         'host'        => 'mysql8',

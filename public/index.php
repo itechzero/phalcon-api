@@ -63,7 +63,6 @@ try {
     //$application->handle($_SERVER['REQUEST_URI'])->send();
     echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 } catch (Exception $exception) {
-    //dd($exception->getMessage());
     $adapter = new Stream(sprintf(BASE_PATH.'/storage/logs/runtime-%s.log',date('Y-m-d')));
     $logger  = new Logger(
         'messages',
@@ -71,18 +70,17 @@ try {
             'main' => $adapter,
         ]
     );
-
-    $logger->debug($exception->getMessage());
     $logger->error($exception->getTraceAsString());
     $params = [
         'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
-        'msg' => BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
+        'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
         'data' => (object)[],
     ];
-    $params['msg'] = $exception->getMessage();
-    $params['trace'] = $exception->getTrace();
-    //var_dump($params);
+    if ($config->app_debug){
+        $params['trace'] = $exception->getTraceAsString();
+    }
+    header('HTTP/1.1 '.BaseException::HTTP_INTERNAL_SERVER_ERROR.' '.BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR]);
+    // 确保FastCGI模式下正常
+    header('Status:'.BaseException::HTTP_INTERNAL_SERVER_ERROR.' '.BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR]);
     echo json_encode($params);die;
-//    echo $e->getMessage() . '<br>';
-//    echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }
