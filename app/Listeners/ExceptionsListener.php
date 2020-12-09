@@ -22,7 +22,7 @@ class ExceptionsListener extends Injectable
         ];
 
         if ($this->di->getShared('config')->app_debug) {
-            $params['trace'] = $exception->getTraceAsString();
+            $params['trace'] = $exception->getTrace();
             $params['file'] = $exception->getFile();
             $params['line'] = $exception->getLine();
         }
@@ -45,6 +45,8 @@ class ExceptionsListener extends Injectable
         if ($exception instanceof Exception) {
             $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        $this->di->getShared('log')->error($exception->getTraceAsString());
 
         $dispatcher->setReturnedValue($this->response);
         return false;

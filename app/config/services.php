@@ -32,6 +32,11 @@ $di->register(new \App\Providers\DispatcherProvider());
 $di->register(new \App\Providers\RedisProvider());
 
 /**
+ * Support Log
+ */
+$di->register(new \App\Providers\LogProvider());
+
+/**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
 // $di->register(new \App\Providers\ModelsMetadataProvider());
