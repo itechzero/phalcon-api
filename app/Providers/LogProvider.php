@@ -19,9 +19,13 @@ class LogProvider implements ServiceProviderInterface
         $di->setShared(
             'log',
             function () use ($di) {
+                $logFile = sprintf('runtime-%s.log', date('Y-m-d'));
+                if (PHP_SAPI == 'cli') {
+                    $logFile = sprintf('task-%s.log', date('Y-m-d'));
+                }
                 $traceId = $di->getShared('request')->getServer('X-Request-Id');
                 $formatter = new Line('[%date%] - [%type%] [' . $traceId . '] - %message%', 'Y-m-d H:i:s');
-                $adapter = new Stream(sprintf(BASE_PATH . '/storage/logs/runtime-%s.log', date('Y-m-d')));
+                $adapter = new Stream(sprintf(BASE_PATH . '/storage/logs/%s', $logFile));
                 $adapter->setFormatter($formatter);
                 return new Logger(
                     'messages',
