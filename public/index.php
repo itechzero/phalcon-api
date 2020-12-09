@@ -5,8 +5,6 @@ use Phalcon\Di\FactoryDefault;
 use App\Application;
 use Phalcon\Events\Manager as EventsManager;
 use App\Exceptions\BaseException;
-use Phalcon\Logger;
-use Phalcon\Logger\Adapter\Stream;
 error_reporting(E_ALL);
 
 define('BASE_PATH', dirname(__DIR__));
