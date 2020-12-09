@@ -36,8 +36,7 @@ class ExceptionsListener extends Injectable
                     $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_NOT_FOUND);
                     break;
                 default:
-//                    $this->logger->error($ex->getMessage());
-//                    $this->logger->error($ex->getTraceAsString());
+                    $this->di->getShared('log')->error($exception->getTraceAsString());
                     break;
             }
         }
