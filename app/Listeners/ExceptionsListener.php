@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Exceptions\BaseException;
-use App\Exceptions\BusinessException;
 use Exception;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
