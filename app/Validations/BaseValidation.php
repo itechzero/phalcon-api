@@ -24,16 +24,4 @@ class BaseValidation extends Validation
         return true;
     }
 
-    public function initialize()
-    {
-        $this->add(
-            'sign',
-            new PresenceOf(
-                [
-                    'message' => 'The sign is required',
-                ]
-            )
-        );
-    }
-
 }
