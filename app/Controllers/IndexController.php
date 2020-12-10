@@ -17,7 +17,7 @@ class IndexController extends ControllerBase
         $requestData = $this->request->get();
 
         $validation = new IndexValidation();
-        if (count($validation->validate($requestData))) {
+        if (!($validation->validate($requestData))) {
             throw new BusinessException(BusinessException::HTTP_API_ERROR,$validation->validate($requestData));
         }
 
