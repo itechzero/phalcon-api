@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Exceptions\BaseException;
+use App\Exceptions\BusinessException;
 use Exception;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
@@ -41,8 +42,10 @@ class ExceptionsListener extends Injectable
             }
         }
 
-        if ($exception instanceof Exception) {
-            $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_INTERNAL_SERVER_ERROR);
+        if ($exception instanceof BaseException) {
+            $params['code'] = $exception->getCode();
+            $params['msg'] = $params['msg'] ? $params['msg'] : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR];
+            $this->response->setJsonContent($params)->setStatusCode($exception::getStatusCode($exception->getCode()));
         }
 
         $this->di->getShared('log')->error($exception->getTraceAsString());
