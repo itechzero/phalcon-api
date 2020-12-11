@@ -28,8 +28,14 @@ class DbProvider implements ServiceProviderInterface
                     'options' => [
                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
                         PDO::ATTR_CASE               => PDO::CASE_LOWER,
+                        PDO::ATTR_EMULATE_PREPARES   => false,
+                        PDO::ATTR_STRINGIFY_FETCHES  => false,
                     ],
                 ];
+
+                if (PHP_SAPI == 'cli') {
+                    $params['options'][PDO::ATTR_PERSISTENT] = true;
+                }
 
                 if ($config->database->adapter == 'Postgresql') {
                     unset($params['charset']);
