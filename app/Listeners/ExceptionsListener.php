@@ -15,6 +15,7 @@ class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
+        //dd(get_class($exception));
         $params = [
             'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
             'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
@@ -26,6 +27,8 @@ class ExceptionsListener extends Injectable
             $params['file'] = $exception->getFile();
             $params['line'] = $exception->getLine();
         }
+
+        $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_INTERNAL_SERVER_ERROR);
 
         if ($exception instanceof DispatchException) {
             switch ($exception->getCode()) {

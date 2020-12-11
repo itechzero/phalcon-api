@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Exceptions\BusinessException;
 use App\Service\UserService;
 use App\Validations\IndexValidation;
+use App\Models\Users;
 
 class IndexController extends ControllerBase
 {
@@ -18,13 +19,29 @@ class IndexController extends ControllerBase
 
         $validation = new IndexValidation();
         if (!($validation->validate($requestData))) {
-            throw new BusinessException(BusinessException::HTTP_API_ERROR,$validation->validate($requestData));
+            throw new BusinessException(BusinessException::HTTP_API_ERROR, $validation->validate($requestData));
         }
 
         return [
             'list' => UserService::userList(),
             'redis' => $redis->get('phalcon'),
         ];
+    }
+
+    public function showAction($id)
+    {
+        $builder  = $this
+            ->modelsManager
+            ->createBuilder()
+            ->addFrom(Users::class,'u')
+            ->where('u.id = :user_id:',
+                [
+                    'user_id' => $id,
+                ])
+            ->columns(['name','email'])
+            ->getQuery()
+        ;
+        dd($builder->getSingleResult()->toArray());
     }
 
 }
