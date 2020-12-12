@@ -5,6 +5,7 @@ namespace App\Listeners;
 
 use App\Exceptions\BaseException;
 use Exception;
+use PDOException;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
@@ -15,7 +16,6 @@ class ExceptionsListener extends Injectable
 {
     public function beforeException(Event $event, MvcDispatcher $dispatcher, Exception $exception)
     {
-        //dd(get_class($exception));
         $params = [
             'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
             'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
