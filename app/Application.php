@@ -73,7 +73,8 @@ class Application extends BaseApplication
 
         $response->setHeader('X-Request-Id', $traceId);
 
-        //$this->getDI()->get('log')->info(sprintf('response：%s', $response->getContent()));
+        $this->di->getShared('log')->info(sprintf('response：%s', $response->getContent()));
+
         return $event->isStopped();
     }
 
