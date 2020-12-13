@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Exceptions\BusinessException;
 use App\Service\UserService;
+use App\Tools\RabbitMQ;
 use App\Validations\IndexValidation;
 use App\Models\Users;
 
@@ -41,6 +42,11 @@ class IndexController extends ControllerBase
             ->columns(['name', 'email'])
             ->getQuery();
         return $builder->getSingleResult()->toArray();
+    }
+
+    public function mqAction()
+    {
+        dd((new RabbitMQ())->connect());
     }
 
 }
