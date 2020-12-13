@@ -30,18 +30,17 @@ class IndexController extends ControllerBase
 
     public function showAction($id)
     {
-        $builder  = $this
+        $builder = $this
             ->modelsManager
             ->createBuilder()
-            ->addFrom(Users::class,'u')
+            ->addFrom(Users::class, 'u')
             ->where('u.id = :user_id:',
                 [
                     'user_id' => $id,
                 ])
-            ->columns(['name','email'])
-            ->getQuery()
-        ;
-        dd($builder->getSingleResult()->toArray());
+            ->columns(['name', 'email'])
+            ->getQuery();
+        return $builder->getSingleResult()->toArray();
     }
 
 }
