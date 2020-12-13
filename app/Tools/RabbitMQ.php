@@ -45,6 +45,13 @@ class RabbitMQ
 
             $queue->bind($this->exchangeName,$this->routeKey);
 
+//            $queue->consume(function($event,$queue){
+//                $body = $event->getBody();
+//                var_dump($body);
+//
+//                $queue->ack($event->getDeliveryTag());
+//            });
+
             $exchange->publish('Hello World!',$this->routeKey,AMQP_AUTOACK);
 
             $connection->disconnect();
