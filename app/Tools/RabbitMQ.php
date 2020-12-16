@@ -55,7 +55,7 @@ class RabbitMQ
 //                $queue->ack($event->getDeliveryTag());
 //            });
 
-            $exchange->publish('Hello World!', $this->routeKey, AMQP_AUTOACK);
+            $exchange->publish('Hello World!!', $this->routeKey, AMQP_AUTOACK);
 
             $connection->disconnect();
         } catch (\Exception $exception) {
