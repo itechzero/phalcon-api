@@ -99,7 +99,7 @@ class Users extends \Phalcon\Mvc\Model
      * @param mixed $parameters
      * @return Users|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface
      */
-    public static function findFirst($parameters = null)
+    public static function findFirst($parameters = null):?\Phalcon\Mvc\ModelInterface
     {
         return parent::findFirst($parameters);
     }
