@@ -57,6 +57,7 @@ class RabbitMQ
 
             $exchange->publish('Hello World!!', $this->routeKey, AMQP_AUTOACK);
 
+            $channel->close();
             $connection->disconnect();
         } catch (\Exception $exception) {
             dd($exception->getMessage());
