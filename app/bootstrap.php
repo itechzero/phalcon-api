@@ -8,6 +8,11 @@ define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
 /**
+ * Composer autoload.
+ */
+require_once BASE_PATH . '/vendor/autoload.php';
+
+/**
  * The FactoryDefault Dependency Injector automatically registers the services that
  * provide a full stack framework. These default services can be overidden with custom ones.
  */
@@ -16,7 +21,7 @@ $di = new CliDi();
 /**
  * Include Services
  */
-include APP_PATH . '/config/services.php';
+include BASE_PATH . '/config/cli/services.php';
 
 /**
  * Get config service for use in inline setup below
@@ -26,7 +31,7 @@ $config = $di->getConfig();
 /**
  * Include Autoloader
  */
-include APP_PATH . '/config/loader.php';
+include BASE_PATH . '/config/cli/loader.php';
 
 /**
  * Create a console application

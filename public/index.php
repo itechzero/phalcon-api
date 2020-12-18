@@ -26,12 +26,12 @@ try {
     /**
      * Read services
      */
-    require APP_PATH . '/config/services.php';
+    require BASE_PATH . '/config/web/services.php';
 
     /**
      * Handle routes
      */
-    require APP_PATH . '/config/router.php';
+    require BASE_PATH . '/config/web/router.php';
 
     /**
      * Get config service for use in inline setup below
@@ -41,7 +41,7 @@ try {
     /**
      * Include Autoloader
      */
-    require APP_PATH . '/config/loader.php';
+    require BASE_PATH . '/config/web/loader.php';
 
     /**
      * Handle the request
