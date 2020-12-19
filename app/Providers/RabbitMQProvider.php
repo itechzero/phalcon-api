@@ -5,7 +5,7 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use App\Tools\RabbitMQ;
+use App\Plugins\RabbitMQ;
 
 class RabbitMQProvider implements ServiceProviderInterface
 {

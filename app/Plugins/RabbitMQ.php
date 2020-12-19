@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tools;
+namespace App\Plugins;
 
 use Phalcon\Di\DiInterface as Di;
 use AMQPConnection;
@@ -11,7 +11,7 @@ use AMQPQueue;
 
 /**
  * Class RabbitMQ
- * @package App\Tools
+ * @package App\Plugins
  */
 class RabbitMQ
 {

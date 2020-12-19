@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Exceptions\BusinessException;
-use App\Service\UserService;
-use App\Tools\RabbitMQ;
+use App\Services\UserService;
+use App\Plugins\RabbitMQ;
 use App\Validations\IndexValidation;
 use App\Models\Users;
 
@@ -46,7 +46,7 @@ class IndexController extends ControllerBase
 
     public function mqAction()
     {
-        dd((new RabbitMQ())->connect());
+        $this->di->getShared('rabbitmq');
     }
 
 }
