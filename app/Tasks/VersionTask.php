@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-class VersionTask extends \Phalcon\Cli\Task
+use Phalcon\Cli\Task;
+
+class VersionTask extends Task
 {
     public function mainAction()
     {
