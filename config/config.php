@@ -10,6 +10,9 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 return new \Phalcon\Config([
     'app_env' => 'local',
     'app_debug' => true,
+    'version' => 'phalcon cli 1.0',
+    'printNewLine' => true,
+
     'database' => [
         'adapter'     => 'Mysql',
         'host'        => 'mysql8',
@@ -18,16 +21,7 @@ return new \Phalcon\Config([
         'dbname'      => 'demo',
         'charset'     => 'utf8',
     ],
-    'redis' => [
-        'adapter'     => 'phpredis',
-        'host'        => 'redis',
-        'port'        => 6379,
-        'timeout'     => 2.5,
-        'auth'        => null,
-        'persistent'  => false, //是否持久连接
-        'socket'      => '',
-        'index'       => 0,
-    ],
+
     'application' => [
         'appDir'         => APP_PATH . '/',
         'controllersDir' => APP_PATH . '/Controllers/',
@@ -38,6 +32,23 @@ return new \Phalcon\Config([
         'cacheDir'       => BASE_PATH . '/storage/logs/',
         'baseUri'        => '/',
     ],
-    'version' => 'phalcon cli 1.0',
-    'printNewLine' => true,
+
+    'redis' => [
+        'adapter'     => 'phpredis',
+        'host'        => 'redis',
+        'port'        => 6379,
+        'timeout'     => 2.5,
+        'auth'        => null,
+        'persistent'  => false, //是否持久连接
+        'socket'      => '',
+        'index'       => 0,
+    ],
+
+    'rabbitmq' => [
+        'host' => 'rabbitmq',
+        'port' => '5672',
+        'vhost' => '/',
+        'login' => 'guest',
+        'password' => 'guest'
+    ],
 ]);
