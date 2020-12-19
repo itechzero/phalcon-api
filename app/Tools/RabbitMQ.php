@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tools;
 
+use Phalcon\Di\DiInterface as Di;
 use AMQPConnection;
 use AMQPChannel;
 use AMQPExchange;
@@ -14,14 +15,28 @@ use AMQPQueue;
  */
 class RabbitMQ
 {
+    /**
+     * @var Di
+     */
+    private $di;
+
+    private $client;
+
     protected $exchangeName = 'demo';
 
     protected $routeKey = 'hello';
 
     protected $message = 'Hello World!';
 
-    public function connect()
+    public function __construct($di)
     {
+        $this->di = $di;
+        $this->connect();
+    }
+
+    private function connect()
+    {
+        $config = $this->di->getShared('config');
         $connection = new AMQPConnection(
             [
                 'host' => 'rabbitmq',

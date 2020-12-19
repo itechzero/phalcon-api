@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use App\Tools\RabbitMQ;
 
 class RabbitMQProvider implements ServiceProviderInterface
 {
@@ -13,7 +14,7 @@ class RabbitMQProvider implements ServiceProviderInterface
         $di->setShared(
             'rabbitmq',
             function () use ($di) {
-
+                return new RabbitMQ($di);
             }
         );
     }
