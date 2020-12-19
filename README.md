@@ -13,3 +13,4 @@
 - [x] RedisProvider
 - [x] 字段验证
 - [ ] DB监听
+- [x] RabbitMQ
