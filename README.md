@@ -10,7 +10,8 @@
 ### 功能描述
 - [x] 运行日志
 - [x] 异常处理
-- [x] RedisProvider
 - [x] 字段验证
 - [ ] DB监听
 - [x] RabbitMQ
+- [x] RedisProvider
+- [x] Command
