@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace App\Plugins;
 
+use App\Traits\DiTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
 
 class RequestClient
 {
+    use DiTrait;
+
     private $client;
 
     public function __construct(array $options = [])
@@ -24,11 +27,13 @@ class RequestClient
                     $statusCode = $response->getStatusCode();
                     $response = $response->getBody()->__toString();
                     $requestTime = $stats->getTransferTime();
-
-//                    Log::info(sprintf("Url:%s, Method:%s, Body:%s Status:%s Response:%s, Time:%s\n", $uri, $method,
-//                        $body, $statusCode, $response, $requestTime));
+                    $this->di->getShared('log')->info(
+                        sprintf("Url:%s, Method:%s, Body:%s Status:%s Response:%s, Time:%s\n",
+                            $uri, $method, $body, $statusCode, $response, $requestTime));
                 } else {
-                    //Log::info(sprintf("Url:%s, Method:%s, Body:%s Response:null\n", $uri, $method, $body));
+                    $this->di->getShared('log')->info(
+                        sprintf("Url:%s, Method:%s, Body:%s Response:null\n",
+                            $uri, $method, $body));
                 }
             },
             'timeout' => 3
