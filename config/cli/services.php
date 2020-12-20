@@ -11,3 +11,7 @@ $di->register(new \App\Providers\ConfigProvider());
  */
 $di->register(new \App\Providers\DbProvider());
 
+/**
+ * DispatcherCliProvider
+ */
+$di->register(new \App\Providers\DispatcherCliProvider());

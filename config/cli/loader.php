@@ -10,9 +10,11 @@ $loader->registerNamespaces(
     ]
 )->register();
 
-$loader->registerDirs([
-    APP_PATH . '/Tasks',
-    APP_PATH . '/Models',
-]);
+$loader->registerDirs(
+    [
+        APP_PATH . '/Tasks',
+        APP_PATH . '/Models',
+    ]
+);
 
 $loader->register();
