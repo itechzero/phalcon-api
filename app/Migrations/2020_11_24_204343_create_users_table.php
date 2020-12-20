@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Phalcon\Migrations\Migrations;
 
-class CreateUsersTable extends Migration
+class CreateUsersTable extends Migrations
 {
     /**
      * Run the migrations.

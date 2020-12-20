@@ -31,6 +31,7 @@ return new \Phalcon\Config([
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/storage/logs/',
         'baseUri'        => '/',
+        'migrationsTsBased' => true, // true - Use TIMESTAMP as version name, false - use versions
     ],
 
     'redis' => [
