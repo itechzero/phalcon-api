@@ -7,7 +7,7 @@ use App\Traits\DiTrait;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
 
-class RequestClient
+class HttpClient
 {
     use DiTrait;
 
