@@ -27,7 +27,7 @@ return new \Phalcon\Config([
         'controllersDir' => APP_PATH . '/Controllers/',
         'modelsDir'      => APP_PATH . '/Models/',
         'migrationsDir'  => APP_PATH . '/Migrations/',
-        'pluginsDir'     => APP_PATH . '/plugins/',
+        'pluginsDir'     => APP_PATH . '/Plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/storage/logs/',
         'baseUri'        => '/',
