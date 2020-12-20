@@ -1,5 +1,5 @@
 {
-  "name": "Vortex/phalcon",
+  "name": "vortex/phalcon",
   "authors": [
     {
       "name": "Vortex"
@@ -7,7 +7,7 @@
   ],
   "description": "The Phalcon Framework.",
   "require": {
-    "guzzlehttp/guzzle": "^6.3"
+    "guzzlehttp/guzzle": "6.5.*"
   },
   "autoload": {
     "psr-4": {
@@ -16,5 +16,8 @@
     "files": [
       "app/Helpers/functions.php"
     ]
+  },
+  "require-dev": {
+    "phalcon/migrations": "^2.1"
   }
 }
