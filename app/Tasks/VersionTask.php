@@ -10,6 +10,6 @@ class VersionTask extends Task
     public function mainAction()
     {
         $config = $this->getDI()->get('config');
-        echo sprintf('Congratulations! You are now flying with Phalcon CLI %f',$config['version']);
+        echo sprintf('Congratulations! You are now flying with Phalcon CLI %s',$config['version']);
     }
 }

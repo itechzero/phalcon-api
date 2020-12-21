@@ -10,7 +10,7 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 return new \Phalcon\Config([
     'app_env' => 'local',
     'app_debug' => true,
-    'version' => '1.0',
+    'version' => 'v1.0',
     'printNewLine' => true,
 
     'database' => [
