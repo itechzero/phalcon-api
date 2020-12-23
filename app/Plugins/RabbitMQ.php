@@ -21,9 +21,15 @@ class RabbitMQ
      */
     private $di;
 
-    private $connection = null;
-    private $channel = null;
     private $config = [];
+
+    private $connection = null;
+
+    private $channel = null;
+
+    private $exchange = null;
+
+    private $queue = null;
 
     protected $exchangeName = 'demo';
 
