@@ -19,27 +19,27 @@ class IndexValidation extends BaseValidation
             )
         );
 
-        $this->add(
-            'ext',
-            new Callback(
-                [
-                    'callback' => function ($data) {
-
-                        if (empty($data['ext'])) {
-                            return false;
-                        }
-
-                        $ext = json_decode($data['ext'], true);
-
-                        if (empty($ext['resid'])) {
-                            return false;
-                        }
-
-                        return true;
-                    },
-                    'message' => 'The ext error'
-                ]
-            )
-        );
+//        $this->add(
+//            'ext',
+//            new Callback(
+//                [
+//                    'callback' => function ($data) {
+//
+//                        if (empty($data['ext'])) {
+//                            return false;
+//                        }
+//
+//                        $ext = json_decode($data['ext'], true);
+//
+//                        if (empty($ext['resid'])) {
+//                            return false;
+//                        }
+//
+//                        return true;
+//                    },
+//                    'message' => 'The ext error'
+//                ]
+//            )
+//        );
     }
 }
