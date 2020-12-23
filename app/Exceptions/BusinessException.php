@@ -13,7 +13,7 @@ class BusinessException extends BaseException
     ];
 
     public static $statusTexts = [
-        self::HTTP_API_ERROR => 'api Error',
+        self::HTTP_API_ERROR => 'api error',
         self::MQ_CONNECT_ERROR => 'mq connect error',
     ];
 }
