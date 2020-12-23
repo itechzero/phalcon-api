@@ -15,3 +15,11 @@
 - [x] RabbitMQ
 - [x] RedisProvider
 - [x] Command
+
+### Use
+
+#### 获取配置
+```
+$config = $this->di->getConfig();
+$config = $this->di->getShared('config');
+```

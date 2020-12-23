@@ -37,6 +37,11 @@ $di->register(new \App\Providers\RedisProvider());
 $di->register(new \App\Providers\LogProvider());
 
 /**
+ * Support RabbitMQ
+ */
+$di->register(new \App\Providers\RabbitMQProvider());
+
+/**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
 // $di->register(new \App\Providers\ModelsMetadataProvider());

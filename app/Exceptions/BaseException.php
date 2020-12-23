@@ -38,12 +38,17 @@ class BaseException extends Exception
     public function __construct(int $code = 0, $message = "", Throwable $previous = null)
     {
         $this->code = $code;
-        $this->message = $message;
+        $this->message = $message ?: self::getReason($code);
     }
 
     public static function getStatusCode($code)
     {
         return isset(static::$statusCode[$code]) ? static::$statusCode[$code] : self::HTTP_BAD_REQUEST;
+    }
+
+    public static function getReason($code)
+    {
+        return isset(static::$statusTexts[$code]) ? static::$statusTexts[$code] : '';
     }
 
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Plugins;
 
+use App\Exceptions\BusinessException;
 use Phalcon\Di\DiInterface as Di;
 use AMQPConnection;
 use AMQPChannel;
@@ -20,7 +21,8 @@ class RabbitMQ
      */
     private $di;
 
-    private $client;
+    private $connection = null;
+    private $channel = null;
 
     protected $exchangeName = 'demo';
 
@@ -37,20 +39,26 @@ class RabbitMQ
     private function connect()
     {
         $config = $this->di->getShared('config');
-        $connection = new AMQPConnection(
-            [
-                'host' => 'rabbitmq',
-                'port' => '5672',
-                'vhost' => '/',
-                'login' => 'guest',
-                'password' => 'guest'
-            ]
-        );
-        $connection->connect();
-        try {
-            $channel = new AMQPChannel($connection);
 
-            $exchange = new AMQPExchange($channel);
+        try {
+            $this->connection = new AMQPConnection(
+                [
+                    'host' => $config->rabbitmq->host,
+                    'port' => $config->rabbitmq->port,
+                    'vhost' => $config->rabbitmq->vhost,
+                    'login' => $config->rabbitmq->login,
+                    'password' => $config->rabbitmq->password,
+                ]
+            );
+            if (!$this->connection->connect()) {
+                throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
+            }
+
+            $channel = $this->getChannel();
+
+            dd($channel);
+
+            $exchange = new AMQPExchange($this->getChannel());
             $exchange->setName($this->exchangeName);
             $exchange->setType(AMQP_EX_TYPE_DIRECT);
             $exchange->setFlags(AMQP_DURABLE);
@@ -73,9 +81,26 @@ class RabbitMQ
             $exchange->publish('Hello World!!', $this->routeKey, AMQP_AUTOACK);
 
             $channel->close();
-            $connection->disconnect();
+            $this->connection->disconnect();
         } catch (\Exception $exception) {
             dd($exception->getMessage());
         }
+    }
+
+    /**
+     * @return AMQPChannel
+     * @throws \AMQPConnectionException
+     */
+    private function getChannel(): AMQPChannel
+    {
+        if (!$this->channel) {
+            $this->channel = new AMQPChannel($this->connection);
+        }
+        return $this->channel;
+    }
+
+    public function sendMsg()
+    {
+        return true;
     }
 }
