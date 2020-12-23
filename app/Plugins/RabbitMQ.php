@@ -23,6 +23,7 @@ class RabbitMQ
 
     private $connection = null;
     private $channel = null;
+    private $config = [];
 
     protected $exchangeName = 'demo';
 
@@ -33,21 +34,25 @@ class RabbitMQ
     public function __construct($di)
     {
         $this->di = $di;
-        $this->connect();
+        $this->config = $this->di->getShared('config');
+        $this->init();
     }
 
-    private function connect()
+    public function instance()
     {
-        $config = $this->di->getShared('config');
+        dd(666);
+    }
 
+    private function init()
+    {
         try {
             $this->connection = new AMQPConnection(
                 [
-                    'host' => $config->rabbitmq->host,
-                    'port' => $config->rabbitmq->port,
-                    'vhost' => $config->rabbitmq->vhost,
-                    'login' => $config->rabbitmq->login,
-                    'password' => $config->rabbitmq->password,
+                    'host' => $this->config->rabbitmq->host,
+                    'port' => $this->config->rabbitmq->port,
+                    'vhost' => $this->config->rabbitmq->vhost,
+                    'login' => $this->config->rabbitmq->login,
+                    'password' => $this->config->rabbitmq->password,
                 ]
             );
             if (!$this->connection->connect()) {

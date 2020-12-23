@@ -46,7 +46,7 @@ class IndexController extends ControllerBase
 
     public function mqAction()
     {
-        $this->di->getShared('rabbitmq');
+        $this->di->getShared('rabbitmq')->instance();
     }
 
 }
