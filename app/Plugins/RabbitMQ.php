@@ -9,6 +9,7 @@ use AMQPConnection;
 use AMQPChannel;
 use AMQPExchange;
 use AMQPQueue;
+use Exception;
 
 /**
  * Class RabbitMQ
@@ -23,12 +24,21 @@ class RabbitMQ
 
     private $config = [];
 
+    /**
+     * @var null
+     */
     private $connection = null;
 
+    /**
+     * @var AMQPChannel
+     */
     private $channel = null;
 
     private $exchange = null;
 
+    /**
+     * @var AMQPQueue
+     */
     private $queue = null;
 
     public function __construct($di)
@@ -50,9 +60,15 @@ class RabbitMQ
     }
 
 
-    public function instance()
+    public function instance(string $exchange = '', string $routeKey = '', string $queue = '')
     {
-        //return true;
+        if (!$exchange || !$routeKey || !$queue) {
+            throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
+        }
+
+        $this->setExchange($exchange);
+        $rs = $this->setQueue($exchange, $routeKey, $queue);
+        dd($rs);
     }
 
     private function init()
@@ -72,15 +88,32 @@ class RabbitMQ
     }
 
     /**
+     * @return AMQPChannel|null
+     */
+    private function getChannel()
+    {
+        if (!$this->channel) {
+            $this->channel = $this->setChannel();
+        }
+        return $this->channel;
+    }
+
+    /**
      * @return AMQPChannel
      * @throws \AMQPConnectionException
      */
-    private function getChannel(): AMQPChannel
+    private function setChannel()
     {
-        if (!$this->channel) {
-            $this->channel = new AMQPChannel($this->connection);
-        }
+        $this->channel = new AMQPChannel($this->connection);
         return $this->channel;
+    }
+
+    /**
+     * @return null
+     */
+    private function getExchange()
+    {
+        return $this->exchange;
     }
 
     /**
@@ -90,7 +123,7 @@ class RabbitMQ
      * @throws \AMQPConnectionException
      * @throws \AMQPExchangeException
      */
-    private function getExchange($exchange)
+    private function setExchange($exchange)
     {
         if (!$this->exchange) {
             $this->exchange = new AMQPExchange($this->getChannel());
@@ -103,24 +136,33 @@ class RabbitMQ
     }
 
     /**
-     * @param $exchange
-     * @param $routeKey
-     * @param $queue
      * @return AMQPQueue
-     * @throws \AMQPChannelException
-     * @throws \AMQPConnectionException
-     * @throws \AMQPQueueException
      */
-    private function getQueue($exchange,$routeKey,$queue)
+    private function getQueue(): AMQPQueue
     {
-        if (!$this->queue) {
-            $this->queue = new AMQPQueue($this->getChannel());
-            $this->queue->setName($queue);
-            $this->queue->setFlags(AMQP_DURABLE);
-            $this->queue->declareQueue();
-            $this->queue->bind($exchange, $routeKey);
-        }
         return $this->queue;
+    }
+
+    /**
+     * @param string $exchange
+     * @param string $routeKey
+     * @param string $queue
+     * @return AMQPQueue
+     */
+    private function setQueue(string $exchange = '', string $routeKey = '', string $queue = '')
+    {
+        try {
+            if (!$this->queue) {
+                $this->queue = new AMQPQueue($this->getChannel());
+                $this->queue->setName($queue);
+                $this->queue->setFlags(AMQP_DURABLE);
+                $this->queue->declareQueue();
+                $this->queue->bind($exchange, $routeKey);
+            }
+            return $this->queue;
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
     }
 
     /**
@@ -128,12 +170,12 @@ class RabbitMQ
      * @param $msg
      * @param $routeKey
      */
-    public function sendMsg($exchange,$msg,$routeKey)
+    public function sendMsg($exchange, $msg, $routeKey)
     {
 
         try {
-            $this->getExchange($exchange)->publish($msg,$routeKey,AMQP_AUTOACK);
-        }catch (\Exception $exception){
+            $this->getExchange($exchange)->publish($msg, $routeKey, AMQP_AUTOACK);
+        } catch (\Exception $exception) {
             dd($exception->getMessage());
         }
     }

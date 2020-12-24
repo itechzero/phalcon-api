@@ -47,11 +47,11 @@ class DemoController extends ControllerBase
 
     public function mqAction()
     {
-        $exchange = '';
-        $routeKey = '';
-        $queue = '';
+        $exchange = 'demo';
+        $routeKey = 'demo_queue_key';
+        $queue = 'demo_queue';
         $msg = '{"username":"6IOSTESTONE6","device":"862986040837632","partner":"1220817001","appkey":"17d1d6d22dcfcf2806b0d353ab890ff9","channel_code":"dalong_android","ctime":1608777365}';
-        $this->di->getShared('rabbitmq')->instance()->sendMsg();
+        $this->di->getShared('rabbitmq')->instance($exchange, $routeKey, $queue);
     }
 
 }
