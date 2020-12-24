@@ -52,7 +52,7 @@ class RabbitMQ
 
     public function instance()
     {
-        dd(666);
+        //return true;
     }
 
     private function init()
@@ -130,10 +130,12 @@ class RabbitMQ
      */
     public function sendMsg($exchange,$msg,$routeKey)
     {
+
         try {
             $this->getExchange($exchange)->publish($msg,$routeKey,AMQP_AUTOACK);
         }catch (\Exception $exception){
             dd($exception->getMessage());
         }
     }
+
 }

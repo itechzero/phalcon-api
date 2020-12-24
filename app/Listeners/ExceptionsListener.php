@@ -5,7 +5,6 @@ namespace App\Listeners;
 
 use App\Exceptions\BaseException;
 use Exception;
-use PDOException;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;

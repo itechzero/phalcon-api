@@ -9,6 +9,7 @@ class RabbitMQTask extends Task
 {
     public function consumeAction()
     {
+        $this->di->getShared('rabbitmq')->instance();
 //        $queue->consume(function ($event, $queue) {
 //            $body = $event->getBody();
 //            var_dump($body);
