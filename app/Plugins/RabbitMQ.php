@@ -83,11 +83,18 @@ class RabbitMQ
         return $this->channel;
     }
 
-    private function getExchange($exchangeName)
+    /**
+     * @param $exchange
+     * @return AMQPExchange
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
+     * @throws \AMQPExchangeException
+     */
+    private function getExchange($exchange)
     {
         if (!$this->exchange) {
             $this->exchange = new AMQPExchange($this->getChannel());
-            $this->exchange->setName($exchangeName);
+            $this->exchange->setName($exchange);
             $this->exchange->setType(AMQP_EX_TYPE_DIRECT);
             $this->exchange->setFlags(AMQP_DURABLE);
             $this->exchange->declareExchange();
@@ -95,6 +102,15 @@ class RabbitMQ
         return $this->exchange;
     }
 
+    /**
+     * @param $exchange
+     * @param $routeKey
+     * @param $queue
+     * @return AMQPQueue
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
+     * @throws \AMQPQueueException
+     */
     private function getQueue($exchange,$routeKey,$queue)
     {
         if (!$this->queue) {
@@ -107,6 +123,11 @@ class RabbitMQ
         return $this->queue;
     }
 
+    /**
+     * @param $exchange
+     * @param $msg
+     * @param $routeKey
+     */
     public function sendMsg($exchange,$msg,$routeKey)
     {
         try {

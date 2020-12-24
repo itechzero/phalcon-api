@@ -8,6 +8,16 @@ $loader = new \Phalcon\Loader();
  */
 // $loader->setExtensions(['php']);
 
+//$loader->registerNamespaces(
+//    [
+//        'App' => APP_PATH . '/',
+//        'App\\Controllers' => BASE_PATH . '/app/Controllers',
+//        'App\\Models' => BASE_PATH . '/app/Models',
+//        'App\\Exception' => BASE_PATH . '/app/Exceptions/',
+//        'App\\Plugins' => BASE_PATH . '/app/Plugins/',
+//    ]
+//)->register();
+
 /**
  * We're a registering a set of directories taken from the configuration file
  */
