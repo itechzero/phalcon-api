@@ -31,18 +31,24 @@ class RabbitMQ
 
     private $queue = null;
 
-    protected $exchangeName = 'demo';
-
-    protected $routeKey = 'hello';
-
-    protected $message = 'Hello World!';
-
     public function __construct($di)
     {
         $this->di = $di;
         $this->config = $this->di->getShared('config');
         $this->init();
     }
+
+    public function __clone()
+    {
+        // TODO: Implement __clone() method.
+    }
+
+    public function __destruct()
+    {
+        $this->channel->close();
+        $this->connection->disconnect();
+    }
+
 
     public function instance()
     {
@@ -51,50 +57,17 @@ class RabbitMQ
 
     private function init()
     {
-        try {
-            $this->connection = new AMQPConnection(
-                [
-                    'host' => $this->config->rabbitmq->host,
-                    'port' => $this->config->rabbitmq->port,
-                    'vhost' => $this->config->rabbitmq->vhost,
-                    'login' => $this->config->rabbitmq->login,
-                    'password' => $this->config->rabbitmq->password,
-                ]
-            );
-            if (!$this->connection->connect()) {
-                throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
-            }
-
-            $channel = $this->getChannel();
-
-            dd($channel);
-
-            $exchange = new AMQPExchange($this->getChannel());
-            $exchange->setName($this->exchangeName);
-            $exchange->setType(AMQP_EX_TYPE_DIRECT);
-            $exchange->setFlags(AMQP_DURABLE);
-            $exchange->declareExchange();
-
-            $queue = new AMQPQueue($channel);
-            $queue->setName('test_queue');
-            $queue->setFlags(AMQP_DURABLE);
-            $queue->declareQueue();
-
-            $queue->bind($this->exchangeName, $this->routeKey);
-
-//            $queue->consume(function($event,$queue){
-//                $body = $event->getBody();
-//                var_dump($body);
-//
-//                $queue->ack($event->getDeliveryTag());
-//            });
-
-            $exchange->publish('Hello World!!', $this->routeKey, AMQP_AUTOACK);
-
-            $channel->close();
-            $this->connection->disconnect();
-        } catch (\Exception $exception) {
-            dd($exception->getMessage());
+        $this->connection = new AMQPConnection(
+            [
+                'host' => $this->config->rabbitmq->host,
+                'port' => $this->config->rabbitmq->port,
+                'vhost' => $this->config->rabbitmq->vhost,
+                'login' => $this->config->rabbitmq->login,
+                'password' => $this->config->rabbitmq->password,
+            ]
+        );
+        if (!$this->connection->connect()) {
+            throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
         }
     }
 
@@ -110,8 +83,36 @@ class RabbitMQ
         return $this->channel;
     }
 
-    public function sendMsg()
+    private function getExchange($exchangeName)
     {
-        return true;
+        if (!$this->exchange) {
+            $this->exchange = new AMQPExchange($this->getChannel());
+            $this->exchange->setName($exchangeName);
+            $this->exchange->setType(AMQP_EX_TYPE_DIRECT);
+            $this->exchange->setFlags(AMQP_DURABLE);
+            $this->exchange->declareExchange();
+        }
+        return $this->exchange;
+    }
+
+    private function getQueue($exchange,$routeKey,$queue)
+    {
+        if (!$this->queue) {
+            $this->queue = new AMQPQueue($this->getChannel());
+            $this->queue->setName($queue);
+            $this->queue->setFlags(AMQP_DURABLE);
+            $this->queue->declareQueue();
+            $this->queue->bind($exchange, $routeKey);
+        }
+        return $this->queue;
+    }
+
+    public function sendMsg($exchange,$msg,$routeKey)
+    {
+        try {
+            $this->getExchange($exchange)->publish($msg,$routeKey,AMQP_AUTOACK);
+        }catch (\Exception $exception){
+            dd($exception->getMessage());
+        }
     }
 }
