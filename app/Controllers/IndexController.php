@@ -8,7 +8,7 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
-        return $this->response('welcome phalcon 4');
+        return $this->response('welcome to phalcon 4.0');
     }
 
 }
