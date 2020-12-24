@@ -45,7 +45,7 @@ class RabbitMQ
 
     public function __destruct()
     {
-        $this->channel->close();
+        $this->getChannel()->close();
         $this->connection->disconnect();
     }
 

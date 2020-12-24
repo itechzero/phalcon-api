@@ -3,23 +3,28 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Exceptions\BaseException;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Dispatcher;
 
 class ControllerBase extends Controller
 {
-    // Implement common logic
-    public function response($data)
+    /**
+     * @param array $data
+     * @param string $msg
+     * @return \Phalcon\Http\ResponseInterface
+     */
+    public function response(string $msg = 'success',array $data = []):\Phalcon\Http\ResponseInterface
     {
         return $this->response
             ->setJsonContent(
                 [
                     'code' => 0,
-                    'msg' => 'success',
-                    'data' => $data ? $data : (object)[]
+                    'msg' => $msg,
+                    'data' => $data ? (object)$data : (object)[]
                 ]
             )
-            ->setStatusCode(200,'ok');
+            ->setStatusCode(BaseException::HTTP_OK,'ok');
     }
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
