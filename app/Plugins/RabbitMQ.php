@@ -213,6 +213,7 @@ class RabbitMQ
     }
 
     /**
+     * 生产者在生产消息时，如果不存在指定队列，并且没有创建队列，或者队列存在但消息路由键和交换机与队列绑定的键(路由规则)不一致（直连交换机必须一致）,则消息会被交换机丢弃
      * @param string $msg
      * @return bool
      * @throws BusinessException
