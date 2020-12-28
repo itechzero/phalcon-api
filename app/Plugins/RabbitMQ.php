@@ -103,7 +103,7 @@ class RabbitMQ
                 }
             }
             return $this->connection;
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             throw new BusinessException(1001, $exception->getMessage());
         }
     }
@@ -141,6 +141,10 @@ class RabbitMQ
     }
 
     /**
+     * AMQP_EX_TYPE_DIRECT:直连交换机
+     * AMQP_EX_TYPE_FANOUT:扇形交换机
+     * AMQP_EX_TYPE_HEADERS:头交换机
+     * AMQP_EX_TYPE_TOPIC:主题交换机
      * @param $exchange
      * @return AMQPExchange
      * @throws BusinessException
@@ -152,7 +156,7 @@ class RabbitMQ
                 $this->exchange = new AMQPExchange($this->getChannel());
                 $this->exchange->setName($exchange);
                 $this->exchange->setType(AMQP_EX_TYPE_DIRECT);
-                $this->exchange->setFlags(AMQP_DURABLE);
+                $this->exchange->setFlags(AMQP_DURABLE);//交换机持久
                 $this->exchange->declareExchange();
             }
             return $this->exchange;
@@ -229,13 +233,13 @@ class RabbitMQ
 //                $body = $event->getBody() ? json_decode($event->getBody(),true) : '';
 //                var_dump($body);
 //                $queue->ack($event->getDeliveryTag());
-//            },AMQP_AUTOACK);
-            $this->getQueue()->consume(function ($event, $queue){
-                $body = $event->getBody() ? json_decode($event->getBody(),true) : '';
+//            },AMQP_AUTOACK);//隐式确认,不推荐
+            $this->getQueue()->consume(function ($event, $queue) {
+                $body = $event->getBody() ? json_decode($event->getBody(), true) : '';
                 var_dump($body);
-                $queue->ack($event->getDeliveryTag());
+                $queue->ack($event->getDeliveryTag());//显式确认，队列收到消费者显式确认后，会删除该消息
             });
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             dd($exception->getMessage());
         }
     }
