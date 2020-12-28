@@ -221,7 +221,8 @@ class RabbitMQ
     public function sendMsg(string $msg = '')
     {
         try {
-            return $this->getExchange()->publish($msg, $this->routeKey, AMQP_AUTOACK);
+            //delivery_mode:2声明消息持久,持久的队列+持久的消息在RabbitMQ重启后才不会丢失
+            return $this->getExchange()->publish($msg, $this->routeKey, AMQP_NOPARAM, ['delivery_mode' => 2]);
         } catch (Exception $exception) {
             throw new BusinessException(1006, $exception->getMessage());
         }

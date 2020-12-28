@@ -23,3 +23,8 @@
 $config = $this->di->getConfig();
 $config = $this->di->getShared('config');
 ```
+
+#### CLI模式
+```
+php run version
+```
