@@ -50,8 +50,17 @@ class DemoController extends ControllerBase
         $exchange = 'demo';
         $routeKey = 'demo_queue_key';
         $queue = 'demo_queue';
-        $msg = '{"username":"6IOSTESTONE6","device":"862986040837632","partner":"1220817001","appkey":"17d1d6d22dcfcf2806b0d353ab890ff9","channel_code":"dalong_android","ctime":1608777365}';
-        $this->di->getShared('rabbitmq')->instance($exchange, $routeKey, $queue);
+
+        $msg = [
+            'username' => 'zhangsan',
+            'device' => '862986040837632',
+            'channel' => 'android_weixin',
+            'created_at' => time(),
+        ];
+
+        $this->di->getShared('rabbitmq')
+            ->instance($exchange, $routeKey, $queue)
+            ->sendMsg(json_encode($msg));
     }
 
 }

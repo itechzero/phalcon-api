@@ -25,7 +25,7 @@ class RabbitMQ
     private $config = [];
 
     /**
-     * @var null
+     * @var AMQPConnection
      */
     private $connection = null;
 
@@ -34,6 +34,9 @@ class RabbitMQ
      */
     private $channel = null;
 
+    /**
+     * @var AMQPExchange
+     */
     private $exchange = null;
 
     /**
@@ -41,24 +44,15 @@ class RabbitMQ
      */
     private $queue = null;
 
-    public function __construct($di)
+    private $routeKey = null;
+
+    private static $instance = null;
+
+    public function __construct(Di $di)
     {
         $this->di = $di;
         $this->config = $this->di->getShared('config');
-        $this->init();
     }
-
-    public function __clone()
-    {
-        // TODO: Implement __clone() method.
-    }
-
-    public function __destruct()
-    {
-        $this->getChannel()->close();
-        $this->connection->disconnect();
-    }
-
 
     public function instance(string $exchange = '', string $routeKey = '', string $queue = '')
     {
@@ -66,24 +60,51 @@ class RabbitMQ
             throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
         }
 
-        $this->setExchange($exchange);
-        $rs = $this->setQueue($exchange, $routeKey, $queue);
-        dd($rs);
+        if (!self::$instance instanceof RabbitMQ) {
+            $this->setConnection();
+            $this->setChannel();
+            $this->setExchange($exchange);
+            $this->setQueue($exchange, $routeKey, $queue);
+            $this->routeKey = $routeKey;
+            self::$instance = $this;
+        }
+
+        return self::$instance;
     }
 
-    private function init()
+    /**
+     * @return AMQPConnection|null
+     */
+    private function getConnection()
     {
-        $this->connection = new AMQPConnection(
-            [
-                'host' => $this->config->rabbitmq->host,
-                'port' => $this->config->rabbitmq->port,
-                'vhost' => $this->config->rabbitmq->vhost,
-                'login' => $this->config->rabbitmq->login,
-                'password' => $this->config->rabbitmq->password,
-            ]
-        );
-        if (!$this->connection->connect()) {
-            throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
+        return $this->connection;
+    }
+
+    /**
+     * @return AMQPConnection
+     * @throws BusinessException
+     * @throws \AMQPConnectionException
+     */
+    private function setConnection()
+    {
+        try {
+            if (!$this->getConnection()) {
+                $this->connection = new AMQPConnection(
+                    [
+                        'host' => $this->config->rabbitmq->host,
+                        'port' => $this->config->rabbitmq->port,
+                        'vhost' => $this->config->rabbitmq->vhost,
+                        'login' => $this->config->rabbitmq->login,
+                        'password' => $this->config->rabbitmq->password,
+                    ]
+                );
+                if (!$this->connection->connect()) {
+                    throw new BusinessException(BusinessException::MQ_CONNECT_ERROR);
+                }
+            }
+            return $this->connection;
+        }catch (Exception $exception){
+            throw new BusinessException(1001, $exception->getMessage());
         }
     }
 
@@ -92,24 +113,27 @@ class RabbitMQ
      */
     private function getChannel()
     {
-        if (!$this->channel) {
-            $this->channel = $this->setChannel();
-        }
         return $this->channel;
     }
 
     /**
      * @return AMQPChannel
-     * @throws \AMQPConnectionException
+     * @throws BusinessException
      */
     private function setChannel()
     {
-        $this->channel = new AMQPChannel($this->connection);
-        return $this->channel;
+        try {
+            if (!$this->getChannel()) {
+                $this->channel = new AMQPChannel($this->getConnection());
+            }
+            return $this->channel;
+        } catch (Exception $exception) {
+            throw new BusinessException(1002, $exception->getMessage());
+        }
     }
 
     /**
-     * @return null
+     * @return AMQPExchange|null
      */
     private function getExchange()
     {
@@ -119,26 +143,28 @@ class RabbitMQ
     /**
      * @param $exchange
      * @return AMQPExchange
-     * @throws \AMQPChannelException
-     * @throws \AMQPConnectionException
-     * @throws \AMQPExchangeException
+     * @throws BusinessException
      */
-    private function setExchange($exchange)
+    private function setExchange(string $exchange = '')
     {
-        if (!$this->exchange) {
-            $this->exchange = new AMQPExchange($this->getChannel());
-            $this->exchange->setName($exchange);
-            $this->exchange->setType(AMQP_EX_TYPE_DIRECT);
-            $this->exchange->setFlags(AMQP_DURABLE);
-            $this->exchange->declareExchange();
+        try {
+            if (!$this->getExchange()) {
+                $this->exchange = new AMQPExchange($this->getChannel());
+                $this->exchange->setName($exchange);
+                $this->exchange->setType(AMQP_EX_TYPE_DIRECT);
+                $this->exchange->setFlags(AMQP_DURABLE);
+                $this->exchange->declareExchange();
+            }
+            return $this->exchange;
+        } catch (Exception $exception) {
+            throw new BusinessException(1003, $exception->getMessage());
         }
-        return $this->exchange;
     }
 
     /**
-     * @return AMQPQueue
+     * @return AMQPQueue|null
      */
-    private function getQueue(): AMQPQueue
+    private function getQueue()
     {
         return $this->queue;
     }
@@ -148,11 +174,12 @@ class RabbitMQ
      * @param string $routeKey
      * @param string $queue
      * @return AMQPQueue
+     * @throws BusinessException
      */
     private function setQueue(string $exchange = '', string $routeKey = '', string $queue = '')
     {
         try {
-            if (!$this->queue) {
+            if (!$this->getQueue()) {
                 $this->queue = new AMQPQueue($this->getChannel());
                 $this->queue->setName($queue);
                 $this->queue->setFlags(AMQP_DURABLE);
@@ -161,22 +188,37 @@ class RabbitMQ
             }
             return $this->queue;
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            throw new BusinessException(1005, $exception->getMessage());
         }
     }
 
-    /**
-     * @param $exchange
-     * @param $msg
-     * @param $routeKey
-     */
-    public function sendMsg($exchange, $msg, $routeKey)
+    public function __clone()
     {
+    }
 
+    public function __destruct()
+    {
+        if (!is_null($this->getChannel())) {
+            $this->getChannel()->close();
+        }
+
+        if (!is_null($this->connection)) {
+            $this->getConnection()->disconnect();
+        }
+
+    }
+
+    /**
+     * @param string $msg
+     * @return bool
+     * @throws BusinessException
+     */
+    public function sendMsg(string $msg = '')
+    {
         try {
-            $this->getExchange($exchange)->publish($msg, $routeKey, AMQP_AUTOACK);
-        } catch (\Exception $exception) {
-            dd($exception->getMessage());
+            return $this->getExchange()->publish($msg, $this->routeKey, AMQP_AUTOACK);
+        } catch (Exception $exception) {
+            throw new BusinessException(1006, $exception->getMessage());
         }
     }
 

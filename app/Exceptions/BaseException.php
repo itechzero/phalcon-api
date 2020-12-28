@@ -17,6 +17,14 @@ class BaseException extends Exception
     const HTTP_NOT_FOUND = 404;
     const HTTP_INTERNAL_SERVER_ERROR = 500;
 
+    const SUCCESS = 200;
+    const SYSTEM_ERROR = 500;
+
+    public static $msg = [
+        self::SUCCESS => 'success',
+        self::SYSTEM_ERROR => 'System Error',
+    ];
+
     public static $statusCode = [
         self::HTTP_OK => 200,
         self::HTTP_BAD_REQUEST => 400,
@@ -41,14 +49,14 @@ class BaseException extends Exception
         $this->message = $message ?: self::getReason($code);
     }
 
+    public static function getReason($code)
+    {
+        return isset(static::$msg[$code]) ? static::$msg[$code] : self::$msg[self::HTTP_INTERNAL_SERVER_ERROR];
+    }
+
     public static function getStatusCode($code)
     {
         return isset(static::$statusCode[$code]) ? static::$statusCode[$code] : self::HTTP_BAD_REQUEST;
-    }
-
-    public static function getReason($code)
-    {
-        return isset(static::$statusTexts[$code]) ? static::$statusTexts[$code] : '';
     }
 
 }

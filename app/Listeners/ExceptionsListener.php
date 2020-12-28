@@ -17,7 +17,7 @@ class ExceptionsListener extends Injectable
     {
         $params = [
             'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
-            'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
+            'msg' => $exception->getMessage(),
             'data' => (object)[],
         ];
 
@@ -34,7 +34,7 @@ class ExceptionsListener extends Injectable
                 case DispatcherException::EXCEPTION_HANDLER_NOT_FOUND:
                 case DispatcherException::EXCEPTION_ACTION_NOT_FOUND:
                     $params['code'] = BaseException::HTTP_NOT_FOUND;
-                    $params['msg'] = BaseException::$statusTexts[BaseException::HTTP_NOT_FOUND];
+                    $params['msg'] = BaseException::$msg[BaseException::HTTP_NOT_FOUND];
                     $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_NOT_FOUND);
                     break;
                 default:
@@ -45,7 +45,6 @@ class ExceptionsListener extends Injectable
 
         if ($exception instanceof BaseException) {
             $params['code'] = $exception->getCode();
-            $params['msg'] = $params['msg'] ? $params['msg'] : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR];
             $this->response->setJsonContent($params)->setStatusCode($exception::getStatusCode($exception->getCode()));
         }
 
