@@ -13,11 +13,9 @@ class RabbitMQTask extends Task
         $routeKey = 'demo_queue_key';
         $queue = 'demo_queue';
         $instance = $this->di->getShared('rabbitmq')->instance($exchange, $routeKey, $queue);
-//        $queue->consume(function ($event, $queue) {
-//            $body = $event->getBody();
-//            var_dump($body);
-//
-//            $queue->ack($event->getDeliveryTag());
-//        });
+        while (true){
+            $instance->consumeMsg();
+        }
     }
+
 }

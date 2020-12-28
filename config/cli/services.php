@@ -15,3 +15,8 @@ $di->register(new \App\Providers\DbProvider());
  * DispatcherCliProvider
  */
 $di->register(new \App\Providers\DispatcherCliProvider());
+
+/**
+ * Support RabbitMQ
+ */
+$di->register(new \App\Providers\RabbitMQProvider());

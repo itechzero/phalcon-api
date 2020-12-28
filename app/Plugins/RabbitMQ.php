@@ -222,4 +222,17 @@ class RabbitMQ
         }
     }
 
+    public function consumeMsg()
+    {
+        try {
+            $this->getQueue()->consume(function ($event, $queue){
+                $body = $event->getBody() ? json_decode($event->getBody(),true) : '';
+                var_dump($body);
+                $queue->ack($event->getDeliveryTag());
+            });
+        }catch (Exception $exception){
+            dd($exception->getMessage());
+        }
+    }
+
 }
