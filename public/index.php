@@ -63,7 +63,7 @@ try {
 } catch (Throwable $exception) {
     $params = [
         'code' => BaseException::HTTP_INTERNAL_SERVER_ERROR,
-        'msg' => $exception->getMessage() ? $exception->getMessage() : BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR],
+        'msg' => $exception->getMessage(),
         'data' => (object)[],
     ];
 
