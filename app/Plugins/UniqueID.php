@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Plugins;
 
+use Godruoyi\Snowflake\Snowflake;
 use Ramsey\Uuid\Type\Hexadecimal;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
 use Ramsey\Uuid\Uuid;
@@ -52,5 +53,10 @@ class UniqueID
         //RFC 4122版本5：基于名称（SHA-1）
         //此版本的UUID将名称空间和名称哈希在一起，以创建确定性的UUID。使用的哈希算法是SHA-1
         return Uuid::uuid5($ns, $name)->toString();
+    }
+
+    public static function snowIdV1()
+    {
+        $snowFlake = new Snowflake();
     }
 }
