@@ -206,7 +206,7 @@ class RabbitMQ
             $this->getChannel()->close();
         }
 
-        if (!is_null($this->connection)) {
+        if (!is_null($this->getConnection())) {
             $this->getConnection()->disconnect();
         }
 
