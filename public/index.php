@@ -51,13 +51,6 @@ try {
     $eventsManager->attach('application:beforeSendResponse',$application);
     $application->setEventsManager($eventsManager);
 
-//    set_error_handler(
-//        function ($errorNo, $errorStr, $errorFile, $errorLine)
-//        {
-//            throw new BaseException($errorStr);
-//        }
-//    );
-
     //$application->handle($_SERVER['REQUEST_URI'])->send();
     echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
 } catch (Throwable $exception) {

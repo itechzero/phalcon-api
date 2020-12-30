@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use App\Exceptions\BaseException;
+
 if (!function_exists('dd')) {
     function dd(...$vars)
     {
@@ -40,6 +42,10 @@ if (!function_exists('multi_array_sort')) {
 if (!function_exists('myErrorHandler')) {
     function myErrorHandler($errNo, $errStr, $errFile, $errLine)
     {
-
+        set_error_handler(
+            function ($errNo, $errStr, $errFile, $errLine) {
+                throw new BaseException($errStr);
+            }
+        );
     }
 }
