@@ -12,9 +12,7 @@ class UserDao
         return;
     }
 
-    /**
-     * @return array
-     */
+
     public static function getUserList()
     {
         return Users::find()->toArray();

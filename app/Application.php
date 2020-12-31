@@ -33,7 +33,7 @@ class Application extends BaseApplication
                     [
                         'code' => 0,
                         'msg' => 'success',
-                        'data' => (object)$content,
+                        'data' => $content,
                     ]
                 );
             } else {
