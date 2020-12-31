@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Plugins;
 
+use Godruoyi\Snowflake\RandomSequenceResolver;
 use Godruoyi\Snowflake\Snowflake;
 use Ramsey\Uuid\Type\Hexadecimal;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
@@ -59,6 +60,7 @@ class UniqueID
     public static function snowIdV1(): ?string
     {
         $snowFlake = new Snowflake();
+        $snowFlake->setSequenceResolver(RandomSequenceResolver::class);
         $snowFlake->setStartTimeStamp(milliSecondTimeStamp());
         return (string)$snowFlake->id();
     }
