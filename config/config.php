@@ -15,7 +15,7 @@ return new \Phalcon\Config([
 
     'database' => [
         'adapter'     => 'Mysql',
-        'host'        => 'mysql',
+        'host'        => 'mysql8',
         'username'    => 'root',
         'password'    => 'secret',
         'dbname'      => 'demo',

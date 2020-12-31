@@ -5,13 +5,14 @@ namespace App\Controllers;
 
 use App\Exceptions\BusinessException;
 use App\Models\Users;
+use App\Services\UserService;
 use App\Validations\IndexValidation;
 
 class DemoController extends ControllerBase
 {
     public function indexAction()
     {
-
+        return UserService::userList();
     }
 
     public function showAction($id)

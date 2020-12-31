@@ -7,6 +7,11 @@ use App\Models\Users;
 
 class UserDao
 {
+    public static function userCreate()
+    {
+        return;
+    }
+
     /**
      * @return array
      */

@@ -104,4 +104,11 @@ class Users extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function beforeSave()
+    {
+        if (0 === $this->id) {
+            dd(99999);
+        }
+    }
+
 }
