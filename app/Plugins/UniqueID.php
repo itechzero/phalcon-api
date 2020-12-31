@@ -55,8 +55,11 @@ class UniqueID
         return Uuid::uuid5($ns, $name)->toString();
     }
 
-    public static function snowIdV1()
+
+    public static function snowIdV1(): ?string
     {
         $snowFlake = new Snowflake();
+        $snowFlake->setStartTimeStamp(milliSecondTimeStamp());
+        return (string)$snowFlake->id();
     }
 }

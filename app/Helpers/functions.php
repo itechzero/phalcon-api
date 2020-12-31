@@ -28,6 +28,15 @@ if (!function_exists('env')) {
     }
 }
 
+if (!function_exists('milliSecondTimeStamp')) {
+    function milliSecondTimeStamp()
+    {
+        list($mSec, $sec) = explode(' ', microtime());
+        $mSecTimeStamp = (float)sprintf('%.0f', (floatval($mSec) + floatval($sec)) * 1000);
+        return (int)$mSecTimeStamp;
+    }
+}
+
 if (!function_exists('multi_array_sort')) {
     function multi_array_sort($array, $shortKey, $short = SORT_ASC, $shortType = SORT_REGULAR)
     {
