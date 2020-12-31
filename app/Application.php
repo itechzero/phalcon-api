@@ -7,7 +7,6 @@ use App\Struct\ResponseStruct;
 use Phalcon\Events\Event;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Application as BaseApplication;
-use Phalcon\Mvc\Model;
 
 class Application extends BaseApplication
 {
@@ -22,10 +21,6 @@ class Application extends BaseApplication
 
         if ($content instanceof Response) {
             $content = json_decode($response->getContent(), true);
-        }
-
-        if ($content instanceof Model) {
-            $content = $content->toArray();
         }
 
         if (NULL === $content || FALSE === $content) {
