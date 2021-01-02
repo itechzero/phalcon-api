@@ -9,7 +9,10 @@ class UserDao
 {
     public static function userCreate()
     {
-        return;
+        $user = new User();
+        $user->id = 0;
+        //$user->save();
+        return $user->save();
     }
 
 

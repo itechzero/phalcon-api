@@ -6,9 +6,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Migrations\Mvc\Model\Migration;
 
 /**
- * Class UserProfileMigration_100
+ * Class UsersMigration_100
  */
-class UserProfileMigration_100 extends Migration
+class UsersMigration_100 extends Migration
 {
     /**
      * Define the table structure
@@ -17,7 +17,7 @@ class UserProfileMigration_100 extends Migration
      */
     public function morph()
     {
-        $this->morphTable('user_profile', [
+        $this->morphTable('users', [
                 'columns' => [
                     new Column(
                         'id',
@@ -31,43 +31,23 @@ class UserProfileMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'uid',
+                        'username',
                         [
-                            'type' => Column::TYPE_BIGINTEGER,
-                            'unsigned' => true,
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
-                            'size' => 1,
+                            'size' => 255,
                             'after' => 'id'
                         ]
                     ),
                     new Column(
-                        'mobile',
+                        'status',
                         [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
+                            'type' => Column::TYPE_TINYINTEGER,
+                            'default' => "0",
                             'notNull' => true,
-                            'size' => 255,
-                            'after' => 'uid'
-                        ]
-                    ),
-                    new Column(
-                        'email',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'mobile'
-                        ]
-                    ),
-                    new Column(
-                        'password',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'email'
+                            'size' => 1,
+                            'after' => 'username'
                         ]
                     ),
                     new Column(
@@ -78,25 +58,13 @@ class UserProfileMigration_100 extends Migration
                             'unsigned' => true,
                             'notNull' => true,
                             'size' => 1,
-                            'after' => 'password'
-                        ]
-                    ),
-                    new Column(
-                        'updated_at',
-                        [
-                            'type' => Column::TYPE_BIGINTEGER,
-                            'default' => "0",
-                            'unsigned' => true,
-                            'notNull' => true,
-                            'size' => 1,
-                            'after' => 'created_at'
+                            'after' => 'status'
                         ]
                     )
                 ],
                 'indexes' => [
                     new Index('PRIMARY', ['id'], 'PRIMARY'),
-                    new Index('user_profile_mobile_unique', ['mobile'], 'UNIQUE'),
-                    new Index('user_profile_email_unique', ['email'], 'UNIQUE')
+                    new Index('users_username_unique', ['username'], 'UNIQUE')
                 ],
                 'options' => [
                     'table_type' => 'BASE TABLE',
