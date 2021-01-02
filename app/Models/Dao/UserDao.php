@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models\Dao;
 
-use App\Models\Users;
+use App\Models\User;
 
 class UserDao
 {
@@ -15,6 +15,6 @@ class UserDao
 
     public static function getUserList()
     {
-        return Users::find()->toArray();
+        return User::find()->toArray();
     }
 }

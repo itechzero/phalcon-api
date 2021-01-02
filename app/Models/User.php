@@ -6,7 +6,7 @@ namespace App\Models;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-class Users extends \Phalcon\Mvc\Model
+class User extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -79,7 +79,7 @@ class Users extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("demo");
-        $this->setSource("users");
+        $this->setSource("user");
     }
 
     /**
