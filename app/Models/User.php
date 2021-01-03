@@ -19,59 +19,41 @@ class User extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $name;
+    public $username;
 
     /**
      *
      * @var string
      */
-    public $email;
+    public $status;
 
     /**
      *
-     * @var string
-     */
-    public $password;
-
-    /**
-     *
-     * @var string
-     */
-    public $api_token;
-
-    /**
-     *
-     * @var string
+     * @var integer
      */
     public $created_at;
-
-    /**
-     *
-     * @var string
-     */
-    public $updated_at;
 
     /**
      * Validations and business logic
      *
      * @return boolean
      */
-    public function validation()
-    {
-        $validator = new Validation();
-
-        $validator->add(
-            'email',
-            new EmailValidator(
-                [
-                    'model'   => $this,
-                    'message' => 'Please enter a correct email address',
-                ]
-            )
-        );
-
-        return $this->validate($validator);
-    }
+//    public function validation()
+//    {
+//        $validator = new Validation();
+//
+//        $validator->add(
+//            'username',
+//            new EmailValidator(
+//                [
+//                    'model'   => $this,
+//                    'message' => 'Please enter a correct email address',
+//                ]
+//            )
+//        );
+//
+//        return $this->validate($validator);
+//    }
 
     /**
      * Initialize method for model.
@@ -79,7 +61,7 @@ class User extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("demo");
-        $this->setSource("user");
+        $this->setSource("users");
     }
 
     /**
@@ -106,8 +88,9 @@ class User extends \Phalcon\Mvc\Model
 
     public function beforeSave()
     {
+
         if (0 === $this->id) {
-            dd(99999);
+            dd(99999);die;
         }
     }
 

@@ -11,8 +11,23 @@ class UserDao
     {
         $user = new User();
         $user->id = 0;
-        //$user->save();
-        return $user->save();
+        $user->username = 'hash';
+        $result = $user->save();
+        if (false === $result) {
+
+            echo 'Error saving Invoice: ';
+
+            $messages = $user->getMessages();
+
+            foreach ($messages as $message) {
+                echo $message . PHP_EOL;
+            }
+        } else {
+
+            echo 'Record Saved';
+        }
+
+        //return $user->save();
     }
 
 

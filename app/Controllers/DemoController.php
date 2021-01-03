@@ -64,5 +64,10 @@ class DemoController extends ControllerBase
             ->sendMsg(json_encode($msg));
     }
 
+    public function userCreateAction()
+    {
+        dd(UserService::userCreate());
+    }
+
 }
 
