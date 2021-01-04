@@ -20,6 +20,7 @@ composer install
 - [x] RabbitMQ
 - [x] RedisProvider
 - [x] Command
+- [x] Model Event
 
 ### Use
 
