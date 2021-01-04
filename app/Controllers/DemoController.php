@@ -66,7 +66,10 @@ class DemoController extends ControllerBase
 
     public function userCreateAction()
     {
-        dd(UserService::userCreate());
+        $ret = UserService::userCreate();
+        return [
+            'ret' => $ret,
+        ];
     }
 
 }
