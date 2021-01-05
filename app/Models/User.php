@@ -35,28 +35,6 @@ class User extends \Phalcon\Mvc\Model
     public $created_at;
 
     /**
-     * Validations and business logic
-     *
-     * @return boolean
-     */
-//    public function validation()
-//    {
-//        $validator = new Validation();
-//
-//        $validator->add(
-//            'username',
-//            new EmailValidator(
-//                [
-//                    'model'   => $this,
-//                    'message' => 'Please enter a correct email address',
-//                ]
-//            )
-//        );
-//
-//        return $this->validate($validator);
-//    }
-
-    /**
      * Initialize method for model.
      */
     public function initialize()

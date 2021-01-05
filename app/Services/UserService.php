@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Dao\UserDao;
+use App\Models\Logic\UserLogic;
 
 class UserService
 {
     public static function userCreate()
     {
-        return UserDao::userCreate();
+        return UserLogic::userCreate();
     }
 
     public static function userList()
     {
-        return UserDao::getUserList();
+        return UserLogic::getUserList();
     }
 }
