@@ -80,4 +80,9 @@ class User extends \Phalcon\Mvc\Model
         //return true;
     }
 
+    public function notSaved()
+    {
+        // Show messages
+    }
+
 }
