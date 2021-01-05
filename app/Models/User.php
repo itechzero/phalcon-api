@@ -60,7 +60,7 @@ class User extends \Phalcon\Mvc\Model
      * @param mixed $parameters
      * @return User|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface
      */
-    public static function findFirst($parameters = null):?\Phalcon\Mvc\ModelInterface
+    public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
     {
         return parent::findFirst($parameters);
     }
@@ -70,7 +70,16 @@ class User extends \Phalcon\Mvc\Model
         if (0 === $this->id) {
             throw new Exception('id is not empty');
         }
-        return true;
+    }
+
+    public function afterFetch()
+    {
+        //return true;
+    }
+
+    public function afterSave()
+    {
+        //return true;
     }
 
 }
