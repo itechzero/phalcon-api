@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Email as EmailValidator;
+use App\Exceptions\BusinessModelException;
 
 class User extends \Phalcon\Mvc\Model
 {
@@ -68,7 +66,7 @@ class User extends \Phalcon\Mvc\Model
     public function beforeSave()
     {
         if (0 === $this->id) {
-            throw new Exception('id is not empty');
+            throw new BusinessModelException(2000);
         }
     }
 

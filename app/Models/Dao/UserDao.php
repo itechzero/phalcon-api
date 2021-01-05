@@ -10,8 +10,9 @@ class UserDao
     public static function userCreate()
     {
         $user = new User();
-        $user->id = 1;
+        $user->id = 0;
         $user->username = 'hash';
+
         return $user->save();
     }
 
