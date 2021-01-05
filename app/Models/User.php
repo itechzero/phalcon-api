@@ -85,4 +85,28 @@ class User extends \Phalcon\Mvc\Model
         // Show messages
     }
 
+//    public function selectReadConnection(
+//        $intermediate,
+//        $bindParams,
+//        $bindTypes
+//    ) {
+//        if (true === isset($intermediate['where'])) {
+//            $conditions = $intermediate['where'];
+//
+//            if ($conditions['left']['name'] === 'id') {
+//                $id = $conditions['right']['value'];
+//
+//                if ($id > 0 && $id < 10000) {
+//                    return $this->getDI()->get('dbShard1');
+//                }
+//
+//                if ($id > 10000) {
+//                    return $this->getDI()->get('dbShard2');
+//                }
+//            }
+//        }
+//
+//        return $this->getDI()->get('dbShard0');
+//    }
+
 }
