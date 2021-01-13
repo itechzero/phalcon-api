@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 use App\Exceptions\BaseException;
+use function json_decode;
+use function json_encode;
 
 if (!function_exists('dd')) {
     function dd(...$vars)
@@ -56,5 +58,28 @@ if (!function_exists('myErrorHandler')) {
                 throw new BaseException($errStr);
             }
         );
+    }
+}
+
+
+if (function_exists('decodeJson')) {
+    function decodeJson($json, $assoc = false, $depth = 512, $options = 0)
+    {
+        $data = json_decode($json, $assoc, $depth, $options);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new InvalidArgumentException('json_decode error: ' . json_last_error_msg());
+        }
+        return $data;
+    }
+}
+
+if (function_exists('encodeJson')) {
+    function encodeJson($value, $options = 0, $depth = 512)
+    {
+        $json = json_encode($value, $options, $depth);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new InvalidArgumentException('json_encode error: ' . json_last_error_msg());
+        }
+        return $json;
     }
 }
