@@ -18,6 +18,28 @@ class DbProvider implements ServiceProviderInterface
         $di->setShared(
             'db',
             function () use ($di) {
+                $eventsManager = new Manager();
+                $logger = $di->getShared('log');
+                $profiler = $di->getProfiler();
+
+                $eventsManager->attach(
+                    'db',
+                    function ($event, $connection) use ($logger, $profiler) {
+                        if ($event->getType() === 'beforeQuery') {
+                            $profiler->startProfile(
+                                $connection->getSQLStatement()
+                            );
+                        }
+
+                        if ($event->getType() === 'afterQuery') {
+                            $profiler->stopProfile();
+                            $logger->info(
+                                $connection->getSQLStatement()
+                            );
+                        }
+                    }
+                );
+
                 $config = $di->getConfig();
                 $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
                 $params = [
@@ -28,9 +50,9 @@ class DbProvider implements ServiceProviderInterface
                     'charset' => $config->database->charset,
                     'options' => [
                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-                        PDO::ATTR_CASE               => PDO::CASE_LOWER,
-                        PDO::ATTR_EMULATE_PREPARES   => false,
-                        PDO::ATTR_STRINGIFY_FETCHES  => false,
+                        PDO::ATTR_CASE => PDO::CASE_LOWER,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                        PDO::ATTR_STRINGIFY_FETCHES => false,
                     ],
                 ];
 
@@ -44,25 +66,10 @@ class DbProvider implements ServiceProviderInterface
 
                 $connection = new $class($params);
 
-                $logger = $di->getShared('log');
-                $eventsManager  = new Manager();
-                //$profiler = $di->getProfiler();
-
-                $eventsManager->attach(
-                    'db:beforeQuery',
-                    function ($event, $connection) use ($logger) {
-                        $logger->info(
-                            $connection->getSQLStatement()
-                        );
-                    }
-                );
-
                 $connection->setEventsManager($eventsManager);
 
                 return $connection;
 
-
-                //return new $class($params);
             }
         );
     }

@@ -22,6 +22,10 @@ $di->register(new \App\Providers\ViewProvider());
 $di->register(new \App\Providers\LogProvider());
 
 /**
+ * Support Profiler
+ */
+$di->register(new \App\Providers\ProfilerProvider());
+/**
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->register(new \App\Providers\DbProvider());
