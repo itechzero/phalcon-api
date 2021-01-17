@@ -2,8 +2,6 @@
 declare(strict_types=1);
 
 use App\Exceptions\BaseException;
-use function json_decode;
-use function json_encode;
 
 if (!function_exists('dd')) {
     function dd(...$vars)
