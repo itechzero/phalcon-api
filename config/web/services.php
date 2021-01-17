@@ -17,6 +17,11 @@ $di->register(new \App\Providers\UrlProvider());
 $di->register(new \App\Providers\ViewProvider());
 
 /**
+ * Support Log
+ */
+$di->register(new \App\Providers\LogProvider());
+
+/**
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->register(new \App\Providers\DbProvider());
@@ -30,11 +35,6 @@ $di->register(new \App\Providers\DispatcherProvider());
  * Support Redis
  */
 $di->register(new \App\Providers\RedisProvider());
-
-/**
- * Support Log
- */
-$di->register(new \App\Providers\LogProvider());
 
 /**
  * Support RabbitMQ

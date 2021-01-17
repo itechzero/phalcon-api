@@ -6,6 +6,7 @@ namespace App\Providers;
 use PDO;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Events\Manager;
 
 class DbProvider implements ServiceProviderInterface
 {
@@ -41,7 +42,27 @@ class DbProvider implements ServiceProviderInterface
                     unset($params['charset']);
                 }
 
-                return new $class($params);
+                $connection = new $class($params);
+
+                $logger = $di->getShared('log');
+                $eventsManager  = new Manager();
+                //$profiler = $di->getProfiler();
+
+                $eventsManager->attach(
+                    'db:beforeQuery',
+                    function ($event, $connection) use ($logger) {
+                        $logger->info(
+                            $connection->getSQLStatement()
+                        );
+                    }
+                );
+
+                $connection->setEventsManager($eventsManager);
+
+                return $connection;
+
+
+                //return new $class($params);
             }
         );
     }
