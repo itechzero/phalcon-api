@@ -25,6 +25,7 @@ class DbProvider implements ServiceProviderInterface
                 $eventsManager->attach(
                     'db',
                     function ($event, $connection) use ($logger, $profiler) {
+                        //$connection->getInternalHandler()->getAttribute(PDO::ATTR_SERVER_INFO);
                         if ($event->getType() === 'beforeQuery') {
                             $profiler->startProfile(
                                 $connection->getSQLStatement()
