@@ -21,5 +21,10 @@
   },
   "require-dev": {
     "phalcon/migrations": "^2.1"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
   }
 }
