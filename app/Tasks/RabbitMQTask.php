@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\Tasks;
 
-use Phalcon\Cli\Task;
-
-class RabbitMQTask extends Task
+class RabbitMQTask extends AbstractTask
 {
-    public function consumeAction()
+    public function mainAction()
     {
         $exchange = 'demo';
         $routeKey = 'demo_queue_key';
@@ -18,4 +16,8 @@ class RabbitMQTask extends Task
         }
     }
 
+    public function runAction()
+    {
+        // TODO: Implement runAction() method.
+    }
 }
