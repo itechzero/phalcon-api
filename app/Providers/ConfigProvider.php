@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Phalcon\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
@@ -16,7 +17,10 @@ class ConfigProvider implements ServiceProviderInterface
         $di->setShared(
             'config',
             function () {
-                return include BASE_PATH . '/config/config.php';
+                $baseConfig = new Config(include BASE_PATH . '/config/config.php');
+                $constConfig = new Config(include BASE_PATH . '/config/app.php');
+                $baseConfig->merge($constConfig);
+                return $baseConfig;
             }
         );
     }
