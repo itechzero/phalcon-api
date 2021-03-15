@@ -68,7 +68,7 @@ try {
     // 确保FastCGI模式下正常
     header('Status:'.BaseException::HTTP_INTERNAL_SERVER_ERROR.' '.BaseException::$statusTexts[BaseException::HTTP_INTERNAL_SERVER_ERROR]);
 
-    $di->getShared('log')->error($exception->getTraceAsString());
+    $di->getShared('logger')->error($exception->getTraceAsString());
 
     echo json_encode($params);exit;
 }

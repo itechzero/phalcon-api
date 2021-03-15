@@ -21,7 +21,7 @@ $di = new CliDi();
 /**
  * Include Services
  */
-include BASE_PATH . '/config/cli/services.php';
+require BASE_PATH . '/config/cli/services.php';
 
 /**
  * Get config service for use in inline setup below
@@ -31,12 +31,13 @@ $config = $di->getConfig();
 /**
  * Include Autoloader
  */
-include BASE_PATH . '/config/cli/loader.php';
+require BASE_PATH . '/config/cli/loader.php';
 
 /**
  * Create a console application
  */
 $console = new ConsoleApp($di);
+$di->setShared('console', $console);
 
 /**
  * Process the console arguments
@@ -44,9 +45,9 @@ $console = new ConsoleApp($di);
 $arguments = [];
 
 foreach ($argv as $k => $arg) {
-    if ($k == 1) {
+    if ($k === 1) {
         $arguments['task'] = $arg;
-    } elseif ($k == 2) {
+    } elseif ($k === 2) {
         $arguments['action'] = $arg;
     } elseif ($k >= 3) {
         $arguments['params'][] = $arg;
@@ -60,21 +61,22 @@ try {
      */
     $console->handle($arguments);
 
-    /**
-     * If configs is set to true, then we print a new line at the end of each execution
-     *
-     * If we dont print a new line,
-     * then the next command prompt will be placed directly on the left of the output
-     * and it is less readable.
-     *
-     * You can disable this behaviour if the output of your application needs to don't have a new line at end
-     */
-    if (isset($config["printNewLine"]) && $config["printNewLine"]) {
+    if (isset($config['printNewLine']) && $config['printNewLine']) {
         echo PHP_EOL;
     }
 
 } catch (Exception $e) {
+    echo $e->getCode() . PHP_EOL;
+    echo $e->getFile() . PHP_EOL;
+    echo $e->getLine() . PHP_EOL;
     echo $e->getMessage() . PHP_EOL;
     echo $e->getTraceAsString() . PHP_EOL;
-    exit(255);
+    exit(1);
+} catch (Throwable $throwable) {
+    echo $throwable->getCode() . PHP_EOL;
+    echo $throwable->getFile() . PHP_EOL;
+    echo $throwable->getLine() . PHP_EOL;
+    echo $throwable->getMessage() . PHP_EOL;
+    echo $throwable->getTraceAsString() . PHP_EOL;
+    exit(1);
 }

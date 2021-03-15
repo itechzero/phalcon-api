@@ -9,7 +9,7 @@ use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Formatter\Line;
 
-class LogProvider implements ServiceProviderInterface
+class LoggerProvider implements ServiceProviderInterface
 {
     /**
      * @param DiInterface $di
@@ -17,7 +17,7 @@ class LogProvider implements ServiceProviderInterface
     public function register(DiInterface $di): void
     {
         $di->setShared(
-            'log',
+            'logger',
             function () use ($di) {
                 $logFile = sprintf('runtime-%s.log', date('Y-m-d'));
                 if (PHP_SAPI == 'cli') {

@@ -9,7 +9,7 @@ $di->register(new \App\Providers\ConfigProvider());
 /**
  * Support Log
  */
-$di->register(new \App\Providers\LogProvider());
+$di->register(new \App\Providers\LoggerProvider());
 
 /**
  * Support Profiler

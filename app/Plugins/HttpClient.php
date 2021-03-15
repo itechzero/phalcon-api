@@ -27,11 +27,11 @@ class HttpClient
                     $statusCode = $response->getStatusCode();
                     $response = $response->getBody()->__toString();
                     $requestTime = $stats->getTransferTime();
-                    $this->di->getShared('log')->info(
+                    $this->di->getShared('logger')->info(
                         sprintf("Url:%s, Method:%s, Body:%s Status:%s Response:%s, Time:%s\n",
                             $uri, $method, $body, $statusCode, $response, $requestTime));
                 } else {
-                    $this->di->getShared('log')->info(
+                    $this->di->getShared('logger')->info(
                         sprintf("Url:%s, Method:%s, Body:%s Response:null\n",
                             $uri, $method, $body));
                 }

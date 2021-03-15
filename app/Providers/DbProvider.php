@@ -19,7 +19,7 @@ class DbProvider implements ServiceProviderInterface
             'db',
             function () use ($di) {
                 $eventsManager = new Manager();
-                $logger = $di->getShared('log');
+                $logger = $di->getShared('logger');
                 $profiler = $di->getProfiler();
 
                 $eventsManager->attach(

@@ -19,5 +19,30 @@ return [
         'cacheDir'          => BASE_PATH . '/storage/logs/',
         'baseUri'           => '/',
         'migrationsTsBased' => true, // true - Use TIMESTAMP as version name, false - use versions
+
+        /**
+         * If configs is set to true, then we print a new line at the end of each execution
+         *
+         * If we dont print a new line,
+         * then the next command prompt will be placed directly on the left of the output
+         * and it is less readable.
+         *
+         * You can disable this behaviour if the output of your application needs to don't have a new line at end
+         */
+        'printNewLine' => true,
+
+        'name'     => 'prod-logger',
+        'adapters' => [
+            'runtime'  => [
+                'adapter' => 'stream',
+                'name'    => sprintf('runtime-%s.log', date('Y-m-d')),
+                'options' => []
+            ],
+            'task' => [
+                'adapter' => 'stream',
+                'name'    => sprintf('task-%s.log', date('Y-m-d')),
+                'options' => []
+            ],
+        ],
     ],
 ];

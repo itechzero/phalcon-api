@@ -19,7 +19,7 @@ $di->register(new \App\Providers\ViewProvider());
 /**
  * Support Log
  */
-$di->register(new \App\Providers\LogProvider());
+$di->register(new \App\Providers\LoggerProvider());
 
 /**
  * Support Profiler

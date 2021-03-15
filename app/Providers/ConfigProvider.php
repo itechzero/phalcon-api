@@ -17,10 +17,9 @@ class ConfigProvider implements ServiceProviderInterface
         $di->setShared(
             'config',
             function () {
-                $baseConfig = new Config(include BASE_PATH . '/config/config.php');
-                $constConfig = new Config(include BASE_PATH . '/config/app.php');
-                $baseConfig->merge($constConfig);
-                return $baseConfig;
+                $baseConfig = new Config(require BASE_PATH . '/config/config.php');
+                $constConfig = new Config(require BASE_PATH . '/config/app.php');
+                return $baseConfig->merge($constConfig);
             }
         );
     }

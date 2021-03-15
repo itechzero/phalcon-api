@@ -38,7 +38,7 @@ class ExceptionsListener extends Injectable
                     $this->response->setJsonContent($params)->setStatusCode(BaseException::HTTP_NOT_FOUND);
                     break;
                 default:
-                    $this->di->getShared('log')->error($exception->getTraceAsString());
+                    $this->di->getShared('logger')->error($exception->getTraceAsString());
                     break;
             }
         }
@@ -48,7 +48,7 @@ class ExceptionsListener extends Injectable
             $this->response->setJsonContent($params)->setStatusCode($exception::getStatusCode($exception->getCode()));
         }
 
-        $this->di->getShared('log')->error($exception->getTraceAsString());
+        $this->di->getShared('logger')->error($exception->getTraceAsString());
 
         $dispatcher->setReturnedValue($this->response);
         return false;
