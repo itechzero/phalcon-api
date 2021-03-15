@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Models\Dao;
 
-use App\Models\User;
+use App\Models\Users;
 
 class UserDao
 {
     public static function userCreate()
     {
-        $user = new User();
-        $user->id = 0;
-        $user->username = 'hash';
+        $user = new Users();
+        $user->setId(0);
+        $user->setUsername('hash');
 
         return $user->save();
     }
@@ -19,6 +19,6 @@ class UserDao
 
     public static function getUserList()
     {
-        return User::find()->toArray();
+        return Users::find()->toArray();
     }
 }

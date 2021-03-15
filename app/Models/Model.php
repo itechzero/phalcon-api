@@ -4,63 +4,22 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Exceptions\BusinessModelException;
+use Phalcon\Mvc\Model as EloquentModel;
 
-class User extends \Phalcon\Mvc\Model
+/**
+ * Class Model
+ * @package App\Models
+ */
+class Model extends EloquentModel
 {
-
-    /**
-     *
-     * @var integer
-     */
-    public $id;
-
-    /**
-     *
-     * @var string
-     */
-    public $username;
-
-    /**
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     *
-     * @var integer
-     */
-    public $created_at;
-
-    /**
-     * Initialize method for model.
-     */
-    public function initialize()
+    public function beforeCreate()
     {
-        $this->setSchema("demo");
-        $this->setSource("users");
+        $this->created_at = time();
     }
 
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return User[]|User|\Phalcon\Mvc\Model\ResultSetInterface
-     */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public function beforeUpdate()
     {
-        return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return User|\Phalcon\Mvc\Model\ResultInterface|\Phalcon\Mvc\ModelInterface
-     */
-    public static function findFirst($parameters = null): ?\Phalcon\Mvc\ModelInterface
-    {
-        return parent::findFirst($parameters);
+        $this->updated_at = time();
     }
 
     public function beforeSave()
@@ -108,5 +67,4 @@ class User extends \Phalcon\Mvc\Model
 //
 //        return $this->getDI()->get('dbShard0');
 //    }
-
 }

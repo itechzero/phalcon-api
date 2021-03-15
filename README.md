@@ -34,3 +34,8 @@ $config = $this->di->getShared('config');
 ```
 php run version
 ```
+
+#### 创建Model
+```
+phalcon model --name=users --get-set --extends=Model --namespace=App\\Models
+```
