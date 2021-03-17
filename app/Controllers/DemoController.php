@@ -67,7 +67,8 @@ class DemoController extends ControllerBase
 
     public function userCreateAction()
     {
-        $ret = UserService::userCreate();
+        $username = (string)$this->request->get('username', null, 'bryant');
+        $ret = UserService::userCreate($username);
         return [
             'ret' => $ret,
         ];

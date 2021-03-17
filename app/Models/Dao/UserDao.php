@@ -7,13 +7,12 @@ use App\Models\Users;
 
 class UserDao
 {
-    public static function userCreate()
+    public static function userCreate(string $username) :int
     {
         $user = new Users();
-        $user->setId(0);
-        $user->setUsername('hash');
-
-        return $user->save();
+        $user->setUsername($username);
+        $user->save();
+        return (int)$user->getId();
     }
 
 

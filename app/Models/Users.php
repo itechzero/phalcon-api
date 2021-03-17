@@ -129,6 +129,9 @@ class Users extends Model
         $this->setSchema("demo");
         $this->setSource("users");
 
+        // Sets if a model must use dynamic update instead of the all-field update
+        $this->useDynamicUpdate(true);
+
         $this->hasOne('id',UsersProfile::class,'uid');
     }
 

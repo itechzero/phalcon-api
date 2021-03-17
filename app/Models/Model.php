@@ -14,19 +14,30 @@ class Model extends EloquentModel
 {
     public function beforeCreate()
     {
-        $this->created_at = time();
+        if (property_exists($this, 'created_at')) {
+            $this->created_at = time();
+        }
+
+        if (property_exists($this, 'updated_at')) {
+            $this->updated_at = time();
+        }
     }
 
     public function beforeUpdate()
     {
-        $this->updated_at = time();
+        if (property_exists($this, 'updated_at')) {
+            $this->updated_at = time();
+        }
+    }
+
+    public function beforeValidation()
+    {
+
     }
 
     public function beforeSave()
     {
-        if (0 === $this->id) {
-            throw new BusinessModelException(2000);
-        }
+
     }
 
     public function afterFetch()

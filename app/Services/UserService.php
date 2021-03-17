@@ -7,9 +7,9 @@ use App\Models\Logic\UserLogic;
 
 class UserService
 {
-    public static function userCreate()
+    public static function userCreate(string $username)
     {
-        return UserLogic::userCreate();
+        return UserLogic::userCreate($username);
     }
 
     public static function userList()

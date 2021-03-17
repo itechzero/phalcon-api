@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Helpers;
 
 use App\Plugins\RabbitMQ;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Logger;
 use Redis;
 use Phalcon\Di;
@@ -42,6 +43,14 @@ class Helper
     public static function getLogger(): Logger
     {
         return self::getDI()->getShared('logger');
+    }
+
+    /**
+     * @return Mysql
+     */
+    public static function getDB(): Mysql
+    {
+        return self::getDI()->getShared('db');
     }
 
 }
